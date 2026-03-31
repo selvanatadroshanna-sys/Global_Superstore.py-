@@ -448,6 +448,6 @@ st.markdown("""
 <p style="text-align:center; color:#64748b; font-size:14px;">
 Built with Streamlit • Global Superstore Project 
 </p>
-""", unsafe_allow_html=True))
+""", unsafe_allow_html=True)
   
 
