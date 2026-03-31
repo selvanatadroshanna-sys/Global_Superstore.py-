@@ -1,4 +1,4 @@
-%%writefile Global_Superstore.py 
+
 
 import streamlit as st
 import pandas as pd
