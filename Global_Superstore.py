@@ -450,9 +450,5 @@ Built with Streamlit • Global Superstore Project
 </p>low_html=True)
 
 """, unsafe_allow_html=True)
-    st.header("Insights & Recommendations")
-
-    # Key Insights
-    # Business Problems
-    # Recommendations
+  
 
