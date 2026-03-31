@@ -438,8 +438,8 @@ elif page == "Insights & Recommendations":
     st.markdown("""
     - Re-evaluate discount strategies, especially in low-margin categories like Furniture.
     - Focus on promoting and expanding Technology products, as they generate the highest profit.
-    - Investigate and improve loss-making sub-categories (e.g., Tables) through pricing or cost optimization.
-    - Analyze return patterns in high-return regions (e.g., Eastern Africa) to reduce returns and improve customer satisfaction.
+    - Investigate and improve loss-making sub-categories  (Tables,.. etc) through pricing or cost optimization.
+    - Analyze return patterns in high-return regions ( Eastern Africa,.. etc) to reduce returns and improve customer satisfaction.
     - Optimize shipping and operational costs to improve overall profitability.
     - Leverage high-performing markets like Asia Pacific for further business expansion.
     """)
