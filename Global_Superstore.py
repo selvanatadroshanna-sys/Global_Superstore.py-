@@ -447,8 +447,7 @@ st.markdown("""
 <hr style="margin-top:10px; margin-bottom:10px;">
 <p style="text-align:center; color:#64748b; font-size:14px;">
 Built with Streamlit • Global Superstore Project 
-</p>low_html=True)
-
-""")
+</p>
+""", unsafe_allow_html=True))
   
 
