@@ -449,6 +449,6 @@ st.markdown("""
 Built with Streamlit • Global Superstore Project 
 </p>low_html=True)
 
-""", unsafe_allow_html=True)
+""", unsafe_al)
   
 
