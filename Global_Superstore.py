@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -43,7 +42,6 @@ section[data-testid="stSidebar"] {{
     display: none;
 }}
 
-/* Hide radio circles */
 div[role="radiogroup"] label > div:first-child {{
     display: none !important;
 }}
@@ -179,14 +177,6 @@ div[role="radiogroup"] label p {{
     margin: 0;
 }}
 
-
-
-
-
-
-
-
-
 .project-card {{
     margin-top: 20px;
     background: rgba(255,255,255,0.92);
@@ -264,13 +254,6 @@ div[role="radiogroup"] label p {{
     font-weight: 700;
 }}
 
-.chart-title {{
-    color: #0f172a;
-    font-size: 19px;
-    font-weight: 900;
-    margin: 8px 0 10px 0;
-}}
-
 .kpi-card {{
     background: rgba(255,255,255,0.94);
     border: 1px solid rgba(148,163,184,0.26);
@@ -278,12 +261,13 @@ div[role="radiogroup"] label p {{
     padding: 22px;
     min-height: 118px;
     box-shadow: 0 16px 36px rgba(15,23,42,0.08);
-    transition: all 0.22s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }}
 
 .kpi-card:hover {{
-    transform: translateY(-3px);
-    box-shadow: 0 22px 46px rgba(15,23,42,0.11);
+    transform: translateY(-5px);
+    border-color: rgba(37,99,235,0.35) !important;
+    box-shadow: 0 26px 55px rgba(15,23,42,0.15) !important;
 }}
 
 .kpi-value {{
@@ -293,14 +277,14 @@ div[role="radiogroup"] label p {{
     letter-spacing: -0.6px;
 }}
 
-.kpi-label {{
+.kpi-label,
+.kpi-title {{
     color: #64748b;
     font-size: 14px;
     font-weight: 800;
     margin-top: 7px;
 }}
 
-/* Streamlit containers */
 div[data-testid="stVerticalBlockBorderWrapper"] {{
     border-radius: 24px !important;
     border: 1px solid rgba(148,163,184,0.28) !important;
@@ -308,19 +292,19 @@ div[data-testid="stVerticalBlockBorderWrapper"] {{
     background: rgba(255,255,255,0.92) !important;
 }}
 
-div[data-testid="stVerticalBlockBorderWrapper"]:hover {{
-    box-shadow: 0 20px 44px rgba(15,23,42,0.11) !important;
-}}
-
 /* ================= FILTERS ================= */
 .filter-panel {{
     background: rgba(255,255,255,0.94);
     border: 1px solid rgba(148,163,184,0.28);
+    border-left: 5px solid #2563eb;
     border-radius: 24px;
     padding: 16px 18px 12px 18px;
     margin-bottom: 18px;
     box-shadow: 0 14px 34px rgba(15,23,42,0.08);
     backdrop-filter: blur(16px);
+    position: sticky;
+    top: 12px;
+    z-index: 50;
 }}
 
 .filter-heading {{
@@ -341,19 +325,6 @@ div[data-testid="stVerticalBlockBorderWrapper"]:hover {{
     border-radius: 14px !important;
     background: #f8fafc !important;
     border: 1px solid #dbe4ef !important;
-}}
-
-.filter-panel [data-baseweb="select"] span {{
-    font-size: 14px !important;
-    font-weight: 700 !important;
-}}
-
-.filter-panel .stSlider {{
-    padding-top: 0 !important;
-}}
-
-.stSlider [data-baseweb="slider"] {{
-    margin-top: 0 !important;
 }}
 
 /* ================= TABS ================= */
@@ -422,10 +393,6 @@ div[data-testid="stButton"] > button:hover {{
     vertical-align: top;
 }}
 
-.insights-table tr:hover td {{
-    background: #f8fafc;
-}}
-
 .footer {{
     text-align: center;
     color: #64748b;
@@ -444,72 +411,6 @@ hr {{
     from {{ opacity: 0; transform: translateY(16px); }}
     to {{ opacity: 1; transform: translateY(0); }}
 }}
-
-/* ================= SIMPLE PAGE TRANSITION ================= */
-.main .block-container {{
-    animation: pageFade 0.55s ease both;
-}}
-
-.page-shell,
-.hero,
-.project-card,
-.filter-panel,
-.top-header {{
-    animation: pageFade 0.55s ease both;
-}}
-
-@keyframes pageFade {{
-    from {{
-        opacity: 0;
-        transform: translateY(10px);
-    }}
-    to {{
-        opacity: 1;
-        transform: translateY(0);
-    }}
-}}
-
-/* ================= FLOATING FILTER ================= */
-.filter-panel {{
-    position: sticky;
-    top: 12px;
-    z-index: 50;
-    transition: all 0.25s ease;
-}}
-
-.filter-panel:hover {{
-    transform: translateY(-2px);
-    box-shadow: 0 22px 48px rgba(15,23,42,0.14);
-}}
-
-/* ================= STRONGER BUT SIMPLE HOVER ================= */
-.kpi-card,
-.project-card,
-div[data-testid="stVerticalBlockBorderWrapper"] {{
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-}}
-
-.kpi-card:hover,
-.project-card:hover:hover,
-div[data-testid="stVerticalBlockBorderWrapper"]:hover {{
-    transform: translateY(-5px);
-    border-color: rgba(37,99,235,0.35) !important;
-    box-shadow: 0 26px 55px rgba(15,23,42,0.15) !important;
-}}
-
-div[role="radiogroup"] label:hover,
-.stTabs [data-baseweb="tab"]:hover {{
-    transform: translateY(-2px);
-}}
-
-/* make filter look like Power BI floating bar */
-.filter-panel {{
-    max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    border-left: 5px solid #2563eb;
-}}
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -525,7 +426,12 @@ def load_data(file_path: str = "df_clean.csv") -> pd.DataFrame:
         st.error("Dataset file not found. Please place `df_clean.csv` in the same folder as this app.")
         st.stop()
 
-    data.columns = data.columns.str.strip().str.lower().str.replace(" ", "_")
+    data.columns = (
+        data.columns
+        .str.strip()
+        .str.lower()
+        .str.replace(" ", "_", regex=False)
+    )
 
     required_columns = {
         "order_date", "ship_date", "sales", "profit", "order_id",
@@ -563,6 +469,7 @@ def beautify_fig(fig):
     fig.update_yaxes(showgrid=True, gridcolor="#e2e8f0", linecolor="#dbe4ef", zeroline=False)
     return fig
 
+
 def kpi_card(value, label):
     st.markdown(
         f"""
@@ -573,6 +480,7 @@ def kpi_card(value, label):
         """,
         unsafe_allow_html=True
     )
+
 
 def section_title(title, subtitle):
     st.markdown(
@@ -585,9 +493,15 @@ def section_title(title, subtitle):
         unsafe_allow_html=True
     )
 
+
 def plot_in_card(fig):
     with st.container(border=True):
         st.plotly_chart(beautify_fig(fig), use_container_width=True)
+
+
+def safe_bar_message(column_name):
+    st.info(f"Column `{column_name}` is not available in this dataset.")
+
 
 def apply_filters(base_df):
     filtered = base_df.copy()
@@ -619,6 +533,28 @@ def apply_filters(base_df):
 
     filtered = filtered[filtered["year"].between(years[0], years[1])]
     return filtered
+
+
+def metrics_block(filtered_df, show_data=False):
+    if show_data:
+        with st.expander("show data"):
+            st.dataframe(filtered_df.head(10), use_container_width=True)
+
+    total_sales = filtered_df["sales"].sum() if len(filtered_df) else 0
+    total_profit = filtered_df["profit"].sum() if len(filtered_df) else 0
+    total_orders = filtered_df["order_id"].nunique() if len(filtered_df) else 0
+    return_rate = (filtered_df["returned"] == "Yes").mean() if "returned" in filtered_df.columns and len(filtered_df) else 0
+
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        kpi_card(f"${total_sales:,.0f}", "Total Sales")
+    with col2:
+        kpi_card(f"${total_profit:,.0f}", "Total Profit")
+    with col3:
+        kpi_card(f"{total_orders:,}", "Total Orders")
+    with col4:
+        kpi_card(f"{return_rate * 100:.1f}%", "Return Rate")
+
 
 # =========================================================
 # NAV STATE
@@ -661,22 +597,26 @@ page = selected
 # HOME
 # =========================================================
 if page == "Home":
+    filtered_df = apply_filters(df)
+
     st.markdown(
-        f"""
+        """
         <div class="hero">
             <div class="hero-content">
-               
+                <div class="hero-badge">📊 Modern Business Analytics</div>
                 <h1>Global Superstore Dashboard</h1>
                 <p>
                     A professional dashboard designed to monitor sales growth, profitability,
                     customer segments, shipping performance, and market opportunities.
                 </p>
-           
             </div>
         </div>
         """,
         unsafe_allow_html=True
     )
+
+    st.write("")
+    metrics_block(filtered_df, show_data=True)
 
     st.markdown(
         """
@@ -714,20 +654,7 @@ elif page == "Summary Dashboard":
     st.markdown('<div class="page-shell">', unsafe_allow_html=True)
     section_title("Summary Dashboard", "Executive overview of sales, profit, orders, and return rate.")
 
-    total_sales = filtered_df["sales"].sum()
-    total_profit = filtered_df["profit"].sum()
-    total_orders = filtered_df["order_id"].nunique()
-    return_rate = (filtered_df["returned"] == "Yes").mean() if "returned" in filtered_df.columns and len(filtered_df) else 0
-
-    c1, c2, c3, c4 = st.columns(4)
-    with c1:
-        kpi_card(f"${total_sales:,.0f}", "Total Sales")
-    with c2:
-        kpi_card(f"${total_profit:,.0f}", "Total Profit")
-    with c3:
-        kpi_card(f"{total_orders:,}", "Total Orders")
-    with c4:
-        kpi_card(f"{return_rate * 100:.1f}%", "Return Rate")
+    metrics_block(filtered_df, show_data=False)
 
     sales_by_month = filtered_df.groupby("month", as_index=False)["sales"].sum()
     fig1 = px.line(sales_by_month, x="month", y="sales", markers=True, title="Total Sales by Month")
@@ -774,14 +701,17 @@ elif page == "Detailed Analysis":
             plot_in_card(fig)
 
         with col2:
-            top_products = (
-                filtered_df.groupby("product_name", as_index=False)["sales"]
-                .sum()
-                .sort_values("sales", ascending=False)
-                .head(10)
-            )
-            fig = px.bar(top_products, x="product_name", y="sales", title="Top 10 Products by Revenue")
-            plot_in_card(fig)
+            if "product_name" in filtered_df.columns:
+                top_products = (
+                    filtered_df.groupby("product_name", as_index=False)["sales"]
+                    .sum()
+                    .sort_values("sales", ascending=False)
+                    .head(10)
+                )
+                fig = px.bar(top_products, x="product_name", y="sales", title="Top 10 Products by Revenue")
+                plot_in_card(fig)
+            else:
+                safe_bar_message("product_name")
 
     with tab2:
         col1, col2 = st.columns(2)
@@ -803,18 +733,30 @@ elif page == "Detailed Analysis":
             fig = px.bar(cat_discount, x="category", y="discount", title="Average Discount by Category")
             plot_in_card(fig)
 
-        loss_bysubcat = (
-            filtered_df[filtered_df["profit"] < 0]
-            .groupby("sub-category", as_index=False)["profit"]
-            .sum()
-            .sort_values("profit")
-        )
-        fig = px.bar(loss_bysubcat, x="sub-category", y="profit", title="Loss-Making Sub-Categories")
-        plot_in_card(fig)
+        if "sub-category" in filtered_df.columns:
+            loss_bysubcat = (
+                filtered_df[filtered_df["profit"] < 0]
+                .groupby("sub-category", as_index=False)["profit"]
+                .sum()
+                .sort_values("profit")
+            )
+            fig = px.bar(loss_bysubcat, x="sub-category", y="profit", title="Loss-Making Sub-Categories")
+            plot_in_card(fig)
+        elif "sub_category" in filtered_df.columns:
+            loss_bysubcat = (
+                filtered_df[filtered_df["profit"] < 0]
+                .groupby("sub_category", as_index=False)["profit"]
+                .sum()
+                .sort_values("profit")
+            )
+            fig = px.bar(loss_bysubcat, x="sub_category", y="profit", title="Loss-Making Sub-Categories")
+            plot_in_card(fig)
+        else:
+            safe_bar_message("sub-category")
 
     with tab3:
         if "returned" not in filtered_df.columns:
-            st.info("The `returned` column is not available in this dataset.")
+            safe_bar_message("returned")
         else:
             col1, col2 = st.columns(2)
 
@@ -842,24 +784,30 @@ elif page == "Detailed Analysis":
         col1, col2 = st.columns(2)
 
         with col1:
-            segment_sales = (
-                filtered_df.groupby("segment", as_index=False)["sales"]
-                .sum()
-                .sort_values("sales", ascending=False)
-            )
-            fig = px.bar(segment_sales, x="segment", y="sales", title="Sales by Customer Segment")
-            plot_in_card(fig)
+            if "segment" in filtered_df.columns:
+                segment_sales = (
+                    filtered_df.groupby("segment", as_index=False)["sales"]
+                    .sum()
+                    .sort_values("sales", ascending=False)
+                )
+                fig = px.bar(segment_sales, x="segment", y="sales", title="Sales by Customer Segment")
+                plot_in_card(fig)
+            else:
+                safe_bar_message("segment")
 
         with col2:
-            most_active_person = (
-                filtered_df.groupby(["region", "person"])["order_id"]
-                .count()
-                .reset_index(name="order_count")
-                .sort_values(["region", "order_count"], ascending=[True, False])
-            )
-            most_active_person = most_active_person.groupby("region").head(1)
-            fig = px.bar(most_active_person, x="person", y="order_count", title="Most Active Person by Region")
-            plot_in_card(fig)
+            if "person" in filtered_df.columns:
+                most_active_person = (
+                    filtered_df.groupby(["region", "person"])["order_id"]
+                    .count()
+                    .reset_index(name="order_count")
+                    .sort_values(["region", "order_count"], ascending=[True, False])
+                )
+                most_active_person = most_active_person.groupby("region").head(1)
+                fig = px.bar(most_active_person, x="person", y="order_count", title="Most Active Person by Region")
+                plot_in_card(fig)
+            else:
+                safe_bar_message("person")
 
         avg_order_value = filtered_df.groupby("order_id")["sales"].sum().mean() if len(filtered_df) else 0
         kpi_card(f"${avg_order_value:,.2f}", "Average Order Value")
@@ -867,32 +815,38 @@ elif page == "Detailed Analysis":
     with tab5:
         col1, col2 = st.columns(2)
 
-        with col1:
-            sales_by_person = (
-                filtered_df.groupby("person", as_index=False)["sales"]
-                .sum()
-                .sort_values("sales", ascending=False)
-                .head(10)
-            )
-            fig = px.bar(sales_by_person, x="person", y="sales", title="Sales by Person")
-            plot_in_card(fig)
+        if "person" not in filtered_df.columns:
+            safe_bar_message("person")
+        else:
+            with col1:
+                sales_by_person = (
+                    filtered_df.groupby("person", as_index=False)["sales"]
+                    .sum()
+                    .sort_values("sales", ascending=False)
+                    .head(10)
+                )
+                fig = px.bar(sales_by_person, x="person", y="sales", title="Sales by Person")
+                plot_in_card(fig)
 
-        with col2:
-            profit_by_person = (
-                filtered_df.groupby("person", as_index=False)["profit"]
-                .sum()
-                .sort_values("profit", ascending=False)
-                .head(10)
-            )
-            fig = px.bar(profit_by_person, x="person", y="profit", title="Profit by Person")
-            plot_in_card(fig)
+            with col2:
+                profit_by_person = (
+                    filtered_df.groupby("person", as_index=False)["profit"]
+                    .sum()
+                    .sort_values("profit", ascending=False)
+                    .head(10)
+                )
+                fig = px.bar(profit_by_person, x="person", y="profit", title="Profit by Person")
+                plot_in_card(fig)
 
     with tab6:
         col1, col2 = st.columns(2)
 
         with col1:
-            fig = px.histogram(filtered_df, x="ship_mode", title="Shipping Mode Distribution")
-            plot_in_card(fig)
+            if "ship_mode" in filtered_df.columns:
+                fig = px.histogram(filtered_df, x="ship_mode", title="Shipping Mode Distribution")
+                plot_in_card(fig)
+            else:
+                safe_bar_message("ship_mode")
 
         with col2:
             shipping_by_year = (
@@ -905,7 +859,7 @@ elif page == "Detailed Analysis":
             fig.update_xaxes(tickmode="linear", dtick=1)
             plot_in_card(fig)
 
-        total_shipping_cost = filtered_df["shipping_cost"].sum()
+        total_shipping_cost = filtered_df["shipping_cost"].sum() if len(filtered_df) else 0
         kpi_card(f"${total_shipping_cost:,.2f}", "Total Shipping Cost")
 
     st.markdown("</div>", unsafe_allow_html=True)
