@@ -1008,35 +1008,48 @@ elif page == "Detailed Analysis":
 # INSIGHTS & RECOMMENDATIONS
 # =========================================================
 elif page == "Insights & Recommendations":
-    st.markdown('<div class="page-shell">', unsafe_allow_html=True)
-    section_title("Insights & Recommendations", "Actionable findings and recommended business actions.")
+    st.header("Insights & Recommendations")
 
-    insights_data = [
-        ["Shipping", "Standard Class is the most used shipping mode", "Optimize Standard shipping costs"],
-        ["Customer Segment", "Consumer segment drives most revenue", "Focus marketing on Consumer segment"],
-        ["Category Demand", "Office Supplies has consistent demand", "Maintain strong stock levels"],
-        ["Sub-Category", "Binders are highly ordered", "Bundle with related products"],
-        ["Market", "Asia Pacific performs strongly", "Expand in Asia Pacific"],
-        ["Sales Pattern", "Sales are right-skewed", "Increase mid-value orders"],
-        ["Profit", "High variability in profit margins", "Standardize pricing strategies"],
-        ["Top Category", "Technology is most profitable", "Promote Technology products"],
-        ["Discount Risk", "Furniture has high discounts", "Reduce excessive discounting"],
-        ["Loss Areas", "Tables generate losses", "Adjust pricing or reduce cost"],
-        ["Returns", "Eastern Africa has high returns", "Improve logistics and quality"],
-        ["Category Returns", "Office Supplies returns are high", "Improve product quality"],
-    ]
+    # Key Insights
+    st.subheader("Key Insights")
 
-    df_insights = pd.DataFrame(
-        insights_data,
-        columns=["Area", "Insight", "Recommendation"]
-    )
+    st.markdown("""
+    -Standard Class is the most commonly used shipping mode, indicating a strong preference for low-cost delivery.
+    - The Consumer segment is the dominant and most profitable segment, making it the primary revenue driver.
+    - Office Supplies is the most frequent category, showing consistent and recurring demand.
+    - Binders is one of the most popular sub-categories in terms of order frequency.
+    - The Asia Pacific market shows strong sales presence compared to other markets.
+    - Sales, Profit, and Shipping Cost distributions are right-skewed, meaning most transactions are small, with a few very large orders driving overall performance.
+    - Profit has the highest number of outliers, indicating high variability in margins across orders.
+    - The Technology category generates the highest profit, making it the most valuable category for the business.
+    - The Furniture category has the highest average discount, which may impact profitability.
+    - Some sub-categories (e.g., Tables) generate consistent losses despite sales activity.
+    - Higher discounts are generally associated with lower profitability.
+    - Eastern Africa has the highest return rate among regions.
+    - Office Supplies also shows a high return rate compared to other categories.
+    """)
+    
+    # Business Problems
+    st.subheader("Business Problems")
 
-    st.markdown(
-        df_insights.to_html(index=False, classes="insights-table", escape=False),
-        unsafe_allow_html=True
-    )
+    st.markdown("""
+    - High discounts in certain categories (especially Furniture) are negatively impacting profit margins.
+    - Some sub-categories are loss-making, indicating inefficient pricing or cost structures.
+    - Profit variability is high, suggesting inconsistent pricing or discount strategies.
+    - Certain regions (e.g., Eastern Africa) have high return rates, which may indicate quality, logistics, or customer satisfaction issues.
+    - The business relies heavily on a small number of high-value orders, which increases revenue risk.
+    """)
+    # Recommendations
+    st.subheader("Recommendations")
 
-    st.markdown("</div>", unsafe_allow_html=True)
+    st.markdown("""
+    - Re-evaluate discount strategies, especially in low-margin categories like Furniture.
+    - Focus on promoting and expanding Technology products, as they generate the highest profit.
+    - Investigate and improve loss-making sub-categories  (Tables,.. etc) through pricing or cost optimization.
+    - Analyze return patterns in high-return regions ( Eastern Africa,.. etc) to reduce returns and improve customer satisfaction.
+    - Optimize shipping and operational costs to improve overall profitability.
+    - Leverage high-performing markets like Asia Pacific for further business expansion.
+    """)
 
 # =========================================================
 # FOOTER
