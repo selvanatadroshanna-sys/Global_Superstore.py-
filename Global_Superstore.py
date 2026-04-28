@@ -1039,7 +1039,7 @@ elif page == "Insights & Recommendations":
     st.markdown(
         """
         <div class="project-card">
-            <h3 style="margin-bottom:10px;">📊 Business Insights Summary</h3>
+            <h3 style="margin-bottom:10px;">Insights & Recommendations</h3>
             <p style="color:#64748b; margin-bottom:16px;">
                 A structured overview of key insights, business problems, and recommended actions.
             </p>
