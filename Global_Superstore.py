@@ -962,26 +962,49 @@ elif page == "Detailed Analysis":
 # INSIGHTS & RECOMMENDATIONS
 # =========================================================
 elif page == "Insights & Recommendations":
-    st.markdown('<div class="page-shell">', unsafe_allow_html=True)
-    section_title("Insights & Recommendations", "Actionable findings and recommended business actions.")
+    st.header("Insights & Recommendations")
 
-    insights_data = [
-        ["Shipping", "Standard Class is the most commonly used shipping mode, indicating a strong preference for low-cost delivery.", "Optimize Standard Class operations and negotiate better shipping rates to reduce cost."],
-        ["Customer Segment", "The Consumer segment is the dominant and most profitable segment, making it the primary revenue driver.", "Prioritize Consumer-focused campaigns and loyalty offers."],
-        ["Category Demand", "Office Supplies is the most frequent category, showing consistent and recurring demand.", "Maintain strong stock availability for recurring Office Supplies demand."],
-        ["Sub-Category Demand", "Binders is one of the most popular sub-categories in terms of order frequency.", "Bundle Binders with related Office Supplies products to increase order value."],
-        ["Market Performance", "The Asia Pacific market shows strong sales presence compared to other markets.", "Leverage Asia Pacific performance for further business expansion."],
-        ["Sales Distribution", "Sales, Profit, and Shipping Cost are right-skewed, meaning a few large orders drive overall performance.", "Reduce dependency on large orders by increasing repeat purchases and mid-value orders."],
-        ["Profit Variability", "Profit has many outliers, indicating high variability in margins across orders.", "Review pricing and discount rules to make margins more consistent."],
-        ["Top Profit Category", "Technology generates the highest profit, making it the most valuable category.", "Promote Technology products and expand high-margin Technology offerings."],
-        ["Discount Risk", "Furniture has the highest average discount, which may reduce profitability.", "Re-evaluate Furniture discounts and set minimum margin thresholds."],
-        ["Loss-Making Areas", "Some sub-categories such as Tables generate consistent losses despite sales activity.", "Improve Tables pricing, reduce costs, or limit aggressive discounts."],
-        ["Discount vs Profit", "Higher discounts are generally associated with lower profitability.", "Use targeted discounts only where they improve volume without damaging margin."],
-        ["Returns", "Eastern Africa has the highest return rate among regions.", "Investigate quality, logistics, and customer satisfaction issues in high-return regions."],
-        ["Category Returns", "Office Supplies also shows a high return rate compared to other categories.", "Analyze Office Supplies return reasons and improve product descriptions or quality checks."],
-    ]
+    # Key Insights
+    st.subheader("Key Insights")
 
-    insights_df = pd.DataFrame(insights_data, columns=["Area", "Insight / Problem", "Recommendation"])
+    st.markdown("""
+    -Standard Class is the most commonly used shipping mode, indicating a strong preference for low-cost delivery.
+    - The Consumer segment is the dominant and most profitable segment, making it the primary revenue driver.
+    - Office Supplies is the most frequent category, showing consistent and recurring demand.
+    - Binders is one of the most popular sub-categories in terms of order frequency.
+    - The Asia Pacific market shows strong sales presence compared to other markets.
+    - Sales, Profit, and Shipping Cost distributions are right-skewed, meaning most transactions are small, with a few very large orders driving overall performance.
+    - Profit has the highest number of outliers, indicating high variability in margins across orders.
+    - The Technology category generates the highest profit, making it the most valuable category for the business.
+    - The Furniture category has the highest average discount, which may impact profitability.
+    - Some sub-categories (e.g., Tables) generate consistent losses despite sales activity.
+    - Higher discounts are generally associated with lower profitability.
+    - Eastern Africa has the highest return rate among regions.
+    - Office Supplies also shows a high return rate compared to other categories.
+    """)
+    
+    # Business Problems
+    st.subheader("Business Problems")
+
+    st.markdown("""
+    - High discounts in certain categories (especially Furniture) are negatively impacting profit margins.
+    - Some sub-categories are loss-making, indicating inefficient pricing or cost structures.
+    - Profit variability is high, suggesting inconsistent pricing or discount strategies.
+    - Certain regions (e.g., Eastern Africa) have high return rates, which may indicate quality, logistics, or customer satisfaction issues.
+    - The business relies heavily on a small number of high-value orders, which increases revenue risk.
+    """)
+    # Recommendations
+    st.subheader("Recommendations")
+
+    st.markdown("""
+    - Re-evaluate discount strategies, especially in low-margin categories like Furniture.
+    - Focus on promoting and expanding Technology products, as they generate the highest profit.
+    - Investigate and improve loss-making sub-categories  (Tables,.. etc) through pricing or cost optimization.
+    - Analyze return patterns in high-return regions ( Eastern Africa,.. etc) to reduce returns and improve customer satisfaction.
+    - Optimize shipping and operational costs to improve overall profitability.
+    - Leverage high-performing markets like Asia Pacific for further business expansion.
+    """)
+
 
     st.markdown(
         insights_df.to_html(index=False, classes="insights-table", escape=False),
