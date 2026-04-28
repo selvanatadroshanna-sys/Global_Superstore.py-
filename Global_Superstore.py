@@ -6,7 +6,11 @@ import plotly.express as px
 # =========================================================
 # PAGE CONFIG
 # =========================================================
-st.set_page_config(page_title="Global Superstore Dashboard", layout="wide")
+st.set_page_config(
+    page_title="Global Superstore Dashboard",
+    page_icon="🛒",
+    layout="wide"
+)
 
 BG_IMAGE = "https://img.freepik.com/premium-photo/store-with-lot-cans-beer-shelf_939033-80225.jpg?semt=ais_hybrid&w=740&q=80"
 
@@ -22,14 +26,16 @@ st.markdown(f"""
 }}
 
 .stApp {{
-    background: #eef4fb;
+    background:
+        radial-gradient(circle at top left, rgba(59,130,246,0.10), transparent 32%),
+        linear-gradient(135deg, #eef4fb 0%, #f8fbff 100%);
 }}
 
 .block-container {{
     padding-top: 1rem;
-    padding-left: 2.3rem;
-    padding-right: 2.3rem;
-    padding-bottom: 1rem;
+    padding-left: 2.2rem;
+    padding-right: 2.2rem;
+    padding-bottom: 1.2rem;
     max-width: 100%;
 }}
 
@@ -37,94 +43,95 @@ section[data-testid="stSidebar"] {{
     display: none;
 }}
 
-/* ================= HEADER ================= */
-.app-header {{
+/* Hide radio circles */
+div[role="radiogroup"] label > div:first-child {{
+    display: none !important;
+}}
+
+/* ================= TOP HEADER ================= */
+.top-header {{
     background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(18px);
-    border: 1px solid rgba(148,163,184,0.32);
+    border: 1px solid rgba(148,163,184,0.30);
     border-radius: 24px;
-    padding: 20px 26px;
-    margin-bottom: 16px;
-    box-shadow: 0 14px 38px rgba(15,23,42,0.10);
+    padding: 18px 24px;
+    margin-bottom: 14px;
+    box-shadow: 0 18px 45px rgba(15,23,42,0.08);
+    backdrop-filter: blur(18px);
     display: flex;
     align-items: center;
     gap: 14px;
-    animation: fadeDown .55s ease both;
 }}
 
-.logo {{
-    width: 48px;
-    height: 48px;
-    border-radius: 16px;
-    background: linear-gradient(135deg,#2563eb,#0ea5e9);
+.logo-box {{
+    width: 50px;
+    height: 50px;
+    border-radius: 17px;
+    background: linear-gradient(135deg, #2563eb, #0ea5e9);
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 26px;
-    box-shadow: 0 12px 28px rgba(37,99,235,.30);
+    box-shadow: 0 14px 32px rgba(37,99,235,0.30);
 }}
 
-.app-title {{
+.header-title {{
+    color: #0f172a;
     font-size: 25px;
     font-weight: 900;
-    color: #0f172a;
+    letter-spacing: -0.4px;
     margin: 0;
 }}
 
-.app-subtitle {{
+.header-subtitle {{
     color: #64748b;
-    margin-top: 4px;
     font-size: 15px;
-    font-weight: 500;
+    font-weight: 600;
+    margin-top: 3px;
 }}
 
-/* ================= TOP NAV ================= */
+/* ================= NAVIGATION ================= */
 div[role="radiogroup"] {{
-    background: rgba(255,255,255,0.82);
-    border: 1px solid rgba(148,163,184,0.32);
+    background: rgba(255,255,255,0.88);
+    border: 1px solid rgba(148,163,184,0.30);
     border-radius: 999px;
     padding: 8px;
     width: fit-content;
     margin: 0 auto 18px auto;
-    box-shadow: 0 12px 30px rgba(15,23,42,0.08);
+    box-shadow: 0 14px 34px rgba(15,23,42,0.08);
 }}
 
 div[role="radiogroup"] label {{
     border-radius: 999px !important;
-    padding: 9px 18px !important;
-    margin-right: 5px !important;
-    transition: all .25s ease;
+    padding: 10px 18px !important;
+    margin-right: 4px !important;
+    transition: all 0.22s ease;
 }}
 
 div[role="radiogroup"] label:hover {{
-    background: rgba(37,99,235,.10);
+    background: rgba(37,99,235,0.10);
     transform: translateY(-1px);
 }}
 
-div[role="radiogroup"] label[data-baseweb="radio"] > div:first-child {{
-    display: none;
-}}
-
 div[role="radiogroup"] label p {{
+    color: #0f172a;
     font-weight: 800;
     font-size: 15px;
-    color: #0f172a;
 }}
 
-/* ================= HOME HERO ================= */
+/* ================= HOME ================= */
 .hero {{
-    min-height: 650px;
+    min-height: 590px;
     border-radius: 30px;
+    position: relative;
     overflow: hidden;
     background-image:
-        linear-gradient(90deg, rgba(5,15,35,.88) 0%, rgba(15,23,42,.68) 45%, rgba(15,23,42,.32) 100%),
+        linear-gradient(90deg, rgba(2,6,23,0.88) 0%, rgba(15,23,42,0.72) 42%, rgba(15,23,42,0.35) 100%),
         url("{BG_IMAGE}");
     background-size: cover;
     background-position: center;
-    box-shadow: 0 24px 70px rgba(15,23,42,.22);
-    position: relative;
-    animation: fadeUp .75s ease both;
+    box-shadow: 0 28px 75px rgba(15,23,42,0.22);
+    animation: fadeUp 0.7s ease both;
 }}
 
 .hero::after {{
@@ -138,45 +145,59 @@ div[role="radiogroup"] label p {{
 .hero-content {{
     position: relative;
     z-index: 2;
-    padding: 82px 70px;
+    padding: 76px 70px 40px 70px;
     max-width: 760px;
     color: white;
+}}
+
+.hero-badge {{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.16);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 999px;
+    padding: 9px 15px;
+    color: #e2e8f0;
+    font-weight: 800;
+    margin-bottom: 20px;
+    backdrop-filter: blur(12px);
 }}
 
 .hero h1 {{
     font-size: 58px;
     line-height: 1.05;
     font-weight: 900;
-    margin: 0 0 20px 0;
     letter-spacing: -1.5px;
+    margin: 0 0 18px 0;
 }}
 
 .hero p {{
-    font-size: 22px;
-    line-height: 1.55;
     color: #e2e8f0;
-    margin-bottom: 28px;
+    font-size: 21px;
+    line-height: 1.55;
+    margin: 0;
 }}
 
 .hero-kpis {{
     position: absolute;
     z-index: 3;
     left: 70px;
-    bottom: 60px;
-    display: flex;
-    gap: 22px;
-    flex-wrap: wrap;
+    right: 70px;
+    bottom: 52px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(190px, 260px));
+    gap: 20px;
 }}
 
 .hero-kpi {{
-    width: 255px;
     padding: 22px;
-    border-radius: 20px;
-    background: rgba(255,255,255,.14);
-    border: 1px solid rgba(255,255,255,.24);
-    backdrop-filter: blur(13px);
+    border-radius: 22px;
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.24);
+    backdrop-filter: blur(14px);
     color: white;
-    box-shadow: 0 20px 45px rgba(0,0,0,.18);
+    box-shadow: 0 18px 45px rgba(0,0,0,0.18);
 }}
 
 .hero-kpi-value {{
@@ -186,157 +207,194 @@ div[role="radiogroup"] label p {{
 
 .hero-kpi-label {{
     color: #cbd5e1;
+    font-size: 14px;
     font-weight: 700;
     margin-top: 6px;
 }}
 
-/* Streamlit button as hero CTA */
-div[data-testid="stButton"] > button {{
-    background: linear-gradient(135deg,#2563eb,#0ea5e9);
-    color: white;
-    border: 0;
-    border-radius: 16px;
-    padding: 0.8rem 1.4rem;
+.project-card {{
+    margin-top: 20px;
+    background: rgba(255,255,255,0.92);
+    border: 1px solid rgba(148,163,184,0.28);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 16px 42px rgba(15,23,42,0.08);
+}}
+
+.project-card h2 {{
+    color: #0f172a;
+    font-size: 26px;
     font-weight: 900;
-    box-shadow: 0 14px 34px rgba(37,99,235,.38);
-    transition: all .25s ease;
+    margin: 0 0 8px 0;
 }}
 
-div[data-testid="stButton"] > button:hover {{
-    transform: translateY(-2px);
-    color: white;
-    box-shadow: 0 18px 42px rgba(37,99,235,.48);
+.project-card p {{
+    color: #475569;
+    font-size: 16px;
+    line-height: 1.7;
+    margin: 0 0 14px 0;
 }}
 
-/* ================= INNER PAGES ================= */
+.feature-grid {{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+}}
+
+.feature-pill {{
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 13px;
+    color: #334155;
+    font-weight: 800;
+    font-size: 14px;
+}}
+
+/* ================= COMMON COMPONENTS ================= */
 .page-shell {{
     border-radius: 30px;
     padding: 24px;
     background-image:
-        linear-gradient(rgba(239,246,255,.84), rgba(239,246,255,.84)),
+        linear-gradient(rgba(248,251,255,0.90), rgba(248,251,255,0.90)),
         url("{BG_IMAGE}");
     background-size: cover;
     background-position: center;
-    box-shadow: 0 22px 60px rgba(15,23,42,.13);
-    animation: fadeUp .7s ease both;
+    box-shadow: 0 24px 65px rgba(15,23,42,0.12);
+    animation: fadeUp 0.65s ease both;
 }}
 
 .section-title {{
-    background: rgba(255,255,255,.88);
-    backdrop-filter: blur(18px);
-    border: 1px solid rgba(148,163,184,.28);
-    border-radius: 22px;
+    background: rgba(255,255,255,0.90);
+    border: 1px solid rgba(148,163,184,0.28);
+    border-radius: 24px;
     padding: 20px 22px;
     margin-bottom: 18px;
-    box-shadow: 0 14px 35px rgba(15,23,42,.08);
+    box-shadow: 0 14px 34px rgba(15,23,42,0.07);
+    backdrop-filter: blur(16px);
 }}
 
 .section-title h2 {{
     color: #0f172a;
     font-size: 32px;
     font-weight: 900;
+    letter-spacing: -0.7px;
     margin: 0;
-    letter-spacing: -0.6px;
 }}
 
 .section-title span {{
     color: #64748b;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
 }}
 
-.custom-card {{
-    background: rgba(255,255,255,.90);
-    backdrop-filter: blur(18px);
-    border: 1px solid rgba(148,163,184,.28);
-    border-radius: 22px;
-    padding: 20px;
-    margin-bottom: 18px;
-    box-shadow: 0 14px 35px rgba(15,23,42,.09);
-    transition: all .25s ease;
-}}
-
-.custom-card:hover {{
-    transform: translateY(-2px);
-    box-shadow: 0 20px 45px rgba(15,23,42,.12);
+.chart-title {{
+    color: #0f172a;
+    font-size: 19px;
+    font-weight: 900;
+    margin: 8px 0 10px 0;
 }}
 
 .kpi-card {{
-    background: rgba(255,255,255,.92);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(148,163,184,.28);
-    border-radius: 22px;
+    background: rgba(255,255,255,0.94);
+    border: 1px solid rgba(148,163,184,0.26);
+    border-radius: 24px;
     padding: 22px;
-    min-height: 120px;
-    box-shadow: 0 14px 35px rgba(15,23,42,.09);
-    transition: all .25s ease;
+    min-height: 118px;
+    box-shadow: 0 16px 36px rgba(15,23,42,0.08);
+    transition: all 0.22s ease;
 }}
 
 .kpi-card:hover {{
-    transform: translateY(-4px);
+    transform: translateY(-3px);
+    box-shadow: 0 22px 46px rgba(15,23,42,0.11);
 }}
 
 .kpi-value {{
     color: #0f172a;
     font-size: 30px;
     font-weight: 900;
+    letter-spacing: -0.6px;
 }}
 
 .kpi-label {{
     color: #64748b;
+    font-size: 14px;
     font-weight: 800;
-    margin-top: 8px;
+    margin-top: 7px;
+}}
+
+/* Streamlit containers */
+div[data-testid="stVerticalBlockBorderWrapper"] {{
+    border-radius: 24px !important;
+    border: 1px solid rgba(148,163,184,0.28) !important;
+    box-shadow: 0 16px 36px rgba(15,23,42,0.08) !important;
+    background: rgba(255,255,255,0.92) !important;
+}}
+
+div[data-testid="stVerticalBlockBorderWrapper"]:hover {{
+    box-shadow: 0 20px 44px rgba(15,23,42,0.11) !important;
 }}
 
 /* ================= FILTERS ================= */
-.filter-card {{
-    background: rgba(255,255,255,.92);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(148,163,184,.28);
-    border-radius: 20px;
-    padding: 14px 18px 10px 18px;
+.filter-panel {{
+    background: rgba(255,255,255,0.94);
+    border: 1px solid rgba(148,163,184,0.28);
+    border-radius: 24px;
+    padding: 16px 18px 12px 18px;
     margin-bottom: 18px;
-    box-shadow: 0 12px 28px rgba(15,23,42,.08);
+    box-shadow: 0 14px 34px rgba(15,23,42,0.08);
+    backdrop-filter: blur(16px);
 }}
 
-.filter-title {{
+.filter-heading {{
     color: #0f172a;
-    font-size: 28px;
+    font-size: 25px;
     font-weight: 900;
     margin-bottom: 8px;
-    letter-spacing: -0.5px;
 }}
 
-.filter-card label {{
-    font-weight: 800 !important;
+.filter-panel label {{
     color: #334155 !important;
-    font-size: 14px !important;
+    font-size: 13px !important;
+    font-weight: 900 !important;
 }}
 
-.filter-card [data-baseweb="select"] > div {{
+.filter-panel [data-baseweb="select"] > div {{
     min-height: 42px !important;
     border-radius: 14px !important;
     background: #f8fafc !important;
-    border-color: #dbe4ef !important;
+    border: 1px solid #dbe4ef !important;
 }}
 
-.filter-card .stSlider {{
+.filter-panel [data-baseweb="select"] span {{
+    font-size: 14px !important;
+    font-weight: 700 !important;
+}}
+
+.filter-panel .stSlider {{
     padding-top: 0 !important;
+}}
+
+.stSlider [data-baseweb="slider"] {{
+    margin-top: 0 !important;
 }}
 
 /* ================= TABS ================= */
 .stTabs [data-baseweb="tab-list"] {{
-    gap: 10px;
-    background: rgba(255,255,255,.78);
+    gap: 8px;
+    background: rgba(255,255,255,0.86);
+    border: 1px solid rgba(148,163,184,0.24);
+    border-radius: 20px;
     padding: 8px;
-    border-radius: 18px;
     margin-bottom: 18px;
 }}
 
 .stTabs [data-baseweb="tab"] {{
     border-radius: 14px;
-    padding: 10px 18px;
-    font-weight: 800;
+    padding: 10px 17px;
+    font-weight: 900;
 }}
 
 .stTabs [aria-selected="true"] {{
@@ -344,69 +402,146 @@ div[data-testid="stButton"] > button:hover {{
     color: white !important;
 }}
 
-/* ================= TABLE ================= */
+/* ================= BUTTON ================= */
+div[data-testid="stButton"] > button {{
+    background: linear-gradient(135deg,#2563eb,#0ea5e9);
+    color: white;
+    border: 0;
+    border-radius: 16px;
+    padding: 0.78rem 1.4rem;
+    font-weight: 900;
+    box-shadow: 0 14px 34px rgba(37,99,235,0.36);
+    transition: all 0.22s ease;
+}}
+
+div[data-testid="stButton"] > button:hover {{
+    transform: translateY(-2px);
+    color: white;
+    box-shadow: 0 18px 42px rgba(37,99,235,0.46);
+}}
+
+/* ================= INSIGHTS TABLE ================= */
 .insights-table {{
     width: 100%;
     border-collapse: collapse;
-    background: rgba(255,255,255,.95);
-    border-radius: 18px;
+    background: rgba(255,255,255,0.96);
+    border-radius: 22px;
     overflow: hidden;
-    box-shadow: 0 14px 35px rgba(15,23,42,.08);
+    box-shadow: 0 16px 40px rgba(15,23,42,0.08);
 }}
 
 .insights-table th {{
-    background: linear-gradient(135deg,#2563eb,#0ea5e9);
+    background: linear-gradient(135deg,#1d4ed8,#0ea5e9);
     color: white;
-    padding: 14px 16px;
+    padding: 15px 17px;
     text-align: left;
     font-size: 15px;
 }}
 
 .insights-table td {{
-    padding: 14px 16px;
+    padding: 15px 17px;
     border-bottom: 1px solid #e2e8f0;
     color: #334155;
     font-size: 14px;
     line-height: 1.55;
+    vertical-align: top;
 }}
 
 .insights-table tr:hover td {{
     background: #f8fafc;
 }}
 
-div[data-testid="stDataFrame"] {{
-    border-radius: 18px;
-    overflow: hidden;
+.footer {{
+    text-align: center;
+    color: #64748b;
+    font-weight: 700;
+    padding: 14px 0 4px 0;
 }}
 
 hr {{
     border: none;
     height: 1px;
-    background: rgba(100,116,139,.25);
-    margin-top: 26px;
-}}
-
-.footer {{
-    text-align: center;
-    color: #64748b;
-    font-weight: 700;
-    padding: 10px;
+    background: rgba(100,116,139,0.24);
+    margin-top: 24px;
 }}
 
 @keyframes fadeUp {{
-    from {{ opacity: 0; transform: translateY(18px); }}
+    from {{ opacity: 0; transform: translateY(16px); }}
     to {{ opacity: 1; transform: translateY(0); }}
 }}
 
-@keyframes fadeDown {{
-    from {{ opacity: 0; transform: translateY(-12px); }}
-    to {{ opacity: 1; transform: translateY(0); }}
-}}
+/* ================= SIMPLE PAGE TRANSITION ================= */
+.main .block-container {
+    animation: pageFade 0.55s ease both;
+}
+
+.page-shell,
+.hero,
+.project-card,
+.filter-panel,
+.top-header {
+    animation: pageFade 0.55s ease both;
+}
+
+@keyframes pageFade {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ================= FLOATING FILTER ================= */
+.filter-panel {
+    position: sticky;
+    top: 12px;
+    z-index: 50;
+    transition: all 0.25s ease;
+}
+
+.filter-panel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 22px 48px rgba(15,23,42,0.14);
+}
+
+/* ================= STRONGER BUT SIMPLE HOVER ================= */
+.kpi-card,
+.project-card,
+.hero-kpi,
+div[data-testid="stVerticalBlockBorderWrapper"] {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.kpi-card:hover,
+.project-card:hover,
+.hero-kpi:hover,
+div[data-testid="stVerticalBlockBorderWrapper"]:hover {
+    transform: translateY(-5px);
+    border-color: rgba(37,99,235,0.35) !important;
+    box-shadow: 0 26px 55px rgba(15,23,42,0.15) !important;
+}
+
+div[role="radiogroup"] label:hover,
+.stTabs [data-baseweb="tab"]:hover {
+    transform: translateY(-2px);
+}
+
+/* make filter look like Power BI floating bar */
+.filter-panel {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    border-left: 5px solid #2563eb;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
 # =========================================================
-# LOAD DATA
+# DATA
 # =========================================================
 @st.cache_data
 def load_data():
@@ -420,45 +555,81 @@ def load_data():
 df = load_data()
 
 # =========================================================
-# HELPER FUNCTIONS
+# HELPERS
 # =========================================================
 def beautify_fig(fig):
     fig.update_layout(
         template="plotly_white",
-        plot_bgcolor="rgba(255,255,255,0.68)",
-        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(255,255,255,0)",
+        paper_bgcolor="rgba(255,255,255,0)",
         font=dict(family="Inter", size=13, color="#334155"),
-        title=dict(font=dict(size=22, color="#0f172a")),
-        margin=dict(l=20, r=20, t=60, b=20),
+        title=dict(font=dict(size=21, color="#0f172a"), x=0.02),
+        margin=dict(l=20, r=20, t=58, b=25),
+        hovermode="x unified",
     )
-    fig.update_xaxes(showgrid=False, linecolor="#cbd5e1")
-    fig.update_yaxes(showgrid=True, gridcolor="#e2e8f0", linecolor="#cbd5e1")
+    fig.update_xaxes(showgrid=False, linecolor="#dbe4ef", zeroline=False)
+    fig.update_yaxes(showgrid=True, gridcolor="#e2e8f0", linecolor="#dbe4ef", zeroline=False)
     return fig
 
 def kpi_card(value, label):
-    st.markdown(f"""
-    <div class="kpi-card">
-        <div class="kpi-value">{value}</div>
-        <div class="kpi-label">{label}</div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(
+        f"""
+        <div class="kpi-card">
+            <div class="kpi-value">{value}</div>
+            <div class="kpi-label">{label}</div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
 def section_title(title, subtitle):
-    st.markdown(f"""
-    <div class="section-title">
-        <h2>{title}</h2>
-        <span>{subtitle}</span>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(
+        f"""
+        <div class="section-title">
+            <h2>{title}</h2>
+            <span>{subtitle}</span>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
-def open_card():
-    st.markdown('<div class="custom-card">', unsafe_allow_html=True)
+def plot_in_card(fig):
+    with st.container(border=True):
+        st.plotly_chart(beautify_fig(fig), use_container_width=True)
 
-def close_card():
-    st.markdown('</div>', unsafe_allow_html=True)
+def apply_filters(base_df):
+    filtered = base_df.copy()
+
+    st.markdown('<div class="filter-panel"><div class="filter-heading">Filters</div>', unsafe_allow_html=True)
+    c1, c2, c3, c4 = st.columns([1.15, 1.15, 1.15, 1.65])
+
+    with c1:
+        region = st.selectbox("Region", ["All Regions"] + sorted(base_df["region"].dropna().unique().tolist()))
+
+    with c2:
+        market = st.selectbox("Market", ["All Markets"] + sorted(base_df["market"].dropna().unique().tolist()))
+
+    with c3:
+        category = st.selectbox("Category", ["All Categories"] + sorted(base_df["category"].dropna().unique().tolist()))
+
+    with c4:
+        min_year, max_year = int(base_df["year"].min()), int(base_df["year"].max())
+        years = st.slider("Years", min_year, max_year, (min_year, max_year))
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    if region != "All Regions":
+        filtered = filtered[filtered["region"] == region]
+    if market != "All Markets":
+        filtered = filtered[filtered["market"] == market]
+    if category != "All Categories":
+        filtered = filtered[filtered["category"] == category]
+
+    filtered = filtered[filtered["year"].between(years[0], years[1])]
+    return filtered
 
 # =========================================================
-# SESSION STATE FOR NAVIGATION
+# NAV STATE
 # =========================================================
 pages = ["Home", "Summary Dashboard", "Detailed Analysis", "Insights & Recommendations"]
 
@@ -468,99 +639,92 @@ if "selected_page" not in st.session_state:
 # =========================================================
 # HEADER
 # =========================================================
-st.markdown("""
-<div class="app-header">
-    <div class="logo">🛒</div>
-    <div>
-        <div class="app-title">Global Superstore Analytics Dashboard</div>
-        <div class="app-subtitle">Interactive insights for smarter business decisions</div>
+st.markdown(
+    """
+    <div class="top-header">
+        <div class="logo-box">🛒</div>
+        <div>
+            <div class="header-title">Global Superstore Analytics Dashboard</div>
+            <div class="header-subtitle">Interactive insights for sales, profit, customers, and operations</div>
+        </div>
     </div>
-</div>
-""", unsafe_allow_html=True)
+    """,
+    unsafe_allow_html=True
+)
 
 # =========================================================
 # NAVIGATION
 # =========================================================
-default_index = pages.index(st.session_state.selected_page)
-
-page = st.radio(
+selected = st.radio(
     "",
     pages,
-    index=default_index,
+    index=pages.index(st.session_state.selected_page),
     horizontal=True,
     label_visibility="collapsed"
 )
-
-st.session_state.selected_page = page
-
-# =========================================================
-# FILTERS ONLY IN SUMMARY + DETAILED
-# =========================================================
-filtered_df = df.copy()
-
-if page in ["Summary Dashboard", "Detailed Analysis"]:
-    st.markdown('<div class="filter-card"><div class="filter-title">Filters</div>', unsafe_allow_html=True)
-
-    f1, f2, f3 = st.columns([1.2, 1.2, 1.6])
-
-    region_options = ["All Regions"] + sorted(df["region"].dropna().unique().tolist())
-    market_options = ["All Markets"] + sorted(df["market"].dropna().unique().tolist())
-
-    with f1:
-        selected_region = st.selectbox("Region", options=region_options, index=0)
-
-    with f2:
-        selected_market = st.selectbox("Market", options=market_options, index=0)
-
-    with f3:
-        min_year, max_year = int(df["year"].min()), int(df["year"].max())
-        selected_years = st.slider("Years", min_year, max_year, (min_year, max_year))
-
-    st.markdown("</div>", unsafe_allow_html=True)
-
-    filtered_df = df.copy()
-
-    if selected_region != "All Regions":
-        filtered_df = filtered_df[filtered_df["region"] == selected_region]
-
-    if selected_market != "All Markets":
-        filtered_df = filtered_df[filtered_df["market"] == selected_market]
-
-    filtered_df = filtered_df[
-        filtered_df["year"].between(selected_years[0], selected_years[1])
-    ].copy()
+st.session_state.selected_page = selected
+page = selected
 
 # =========================================================
-# HOME PAGE
+# HOME
 # =========================================================
 if page == "Home":
     total_sales = df["sales"].sum()
     total_profit = df["profit"].sum()
     total_orders = df["order_id"].nunique()
 
-    st.markdown(f"""
-    <div class="hero">
-        <div class="hero-content">
-            <h1>Global Superstore Dashboard</h1>
-            <p>Analyze sales, profit, customers, and performance across regions and years through a clean professional dashboard.</p>
-        </div>
+    st.markdown(
+        f"""
+        <div class="hero">
+            <div class="hero-content">
+                <div class="hero-badge">📊 Modern Business Analytics</div>
+                <h1>Global Superstore Dashboard</h1>
+                <p>
+                    A professional dashboard designed to monitor sales growth, profitability,
+                    customer segments, shipping performance, and market opportunities.
+                </p>
+            </div>
 
-        <div class="hero-kpis">
-            <div class="hero-kpi">
-                <div class="hero-kpi-value">${total_sales:,.0f}</div>
-                <div class="hero-kpi-label">Total Sales</div>
-            </div>
-            <div class="hero-kpi">
-                <div class="hero-kpi-value">${total_profit:,.0f}</div>
-                <div class="hero-kpi-label">Total Profit</div>
-            </div>
-            <div class="hero-kpi">
-                <div class="hero-kpi-value">{total_orders:,}</div>
-                <div class="hero-kpi-label">Total Orders</div>
+            <div class="hero-kpis">
+                <div class="hero-kpi">
+                    <div class="hero-kpi-value">${total_sales:,.0f}</div>
+                    <div class="hero-kpi-label">Total Sales</div>
+                </div>
+                <div class="hero-kpi">
+                    <div class="hero-kpi-value">${total_profit:,.0f}</div>
+                    <div class="hero-kpi-label">Total Profit</div>
+                </div>
+                <div class="hero-kpi">
+                    <div class="hero-kpi-value">{total_orders:,}</div>
+                    <div class="hero-kpi-label">Total Orders</div>
+                </div>
             </div>
         </div>
-    </div>
-    """, unsafe_allow_html=True)
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        """
+        <div class="project-card">
+            <h2>About This Project</h2>
+            <p>
+                This project analyzes the Global Superstore dataset to help decision makers understand
+                business performance across regions, markets, products, customers, and shipping operations.
+                The dashboard turns raw transactional data into clear KPIs, interactive visuals, and
+                actionable recommendations.
+            </p>
+            <div class="feature-grid">
+                <div class="feature-pill">📈 Sales Trends</div>
+                <div class="feature-pill">💰 Profitability</div>
+                <div class="feature-pill">🌍 Markets</div>
+                <div class="feature-pill">👥 Customers</div>
+                <div class="feature-pill">🚚 Shipping</div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
     st.write("")
     if st.button("Explore Dashboard →"):
@@ -571,14 +735,15 @@ if page == "Home":
 # SUMMARY DASHBOARD
 # =========================================================
 elif page == "Summary Dashboard":
-    st.markdown('<div class="page-shell">', unsafe_allow_html=True)
+    filtered_df = apply_filters(df)
 
-    section_title("Summary Dashboard", "Executive overview of sales, profit, orders, and returns.")
+    st.markdown('<div class="page-shell">', unsafe_allow_html=True)
+    section_title("Summary Dashboard", "Executive overview of sales, profit, orders, and return rate.")
 
     total_sales = filtered_df["sales"].sum()
     total_profit = filtered_df["profit"].sum()
     total_orders = filtered_df["order_id"].nunique()
-    return_rate = (filtered_df["returned"] == "Yes").mean() if "returned" in filtered_df.columns else 0
+    return_rate = (filtered_df["returned"] == "Yes").mean() if "returned" in filtered_df.columns and len(filtered_df) else 0
 
     c1, c2, c3, c4 = st.columns(4)
     with c1:
@@ -590,23 +755,18 @@ elif page == "Summary Dashboard":
     with c4:
         kpi_card(f"{return_rate * 100:.1f}%", "Return Rate")
 
-    open_card()
-    sales_by_month = filtered_df.groupby("month")["sales"].sum().reset_index()
-    fig = px.line(sales_by_month, x="month", y="sales", markers=True, title="Total Sales by Month")
-    st.plotly_chart(beautify_fig(fig), use_container_width=True)
-    close_card()
+    sales_by_month = filtered_df.groupby("month", as_index=False)["sales"].sum()
+    fig1 = px.line(sales_by_month, x="month", y="sales", markers=True, title="Total Sales by Month")
+    plot_in_card(fig1)
 
-    open_card()
     sales_by_market = (
-        filtered_df.groupby("market")["sales"]
+        filtered_df.groupby("market", as_index=False)["sales"]
         .sum()
-        .reset_index()
-        .sort_values(by="sales", ascending=False)
+        .sort_values("sales", ascending=False)
         .head(10)
     )
     fig2 = px.bar(sales_by_market, x="market", y="sales", title="Top 10 Markets by Revenue")
-    st.plotly_chart(beautify_fig(fig2), use_container_width=True)
-    close_card()
+    plot_in_card(fig2)
 
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -614,191 +774,150 @@ elif page == "Summary Dashboard":
 # DETAILED ANALYSIS
 # =========================================================
 elif page == "Detailed Analysis":
+    filtered_df = apply_filters(df)
+
     st.markdown('<div class="page-shell">', unsafe_allow_html=True)
+    section_title("Detailed Analysis", "Explore performance by sales, profit, returns, customers, managers, and shipping.")
 
-    section_title("Detailed Analysis", "Deep dive into sales, profit, returns, customers, managers, and shipping.")
-
-    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
-        "Sales",
-        "Profit & Discount",
-        "Returns",
-        "Customers",
-        "Managers",
-        "Shipping"
-    ])
+    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(
+        ["Sales", "Profit & Discount", "Returns", "Customers", "Managers", "Shipping"]
+    )
 
     with tab1:
-        open_card()
-        sales_by_year = filtered_df.groupby("year")["sales"].sum().reset_index()
+        sales_by_year = filtered_df.groupby("year", as_index=False)["sales"].sum()
         fig = px.line(sales_by_year, x="year", y="sales", markers=True, title="Total Sales by Year")
         fig.update_xaxes(tickmode="linear", dtick=1)
-        st.plotly_chart(beautify_fig(fig), use_container_width=True)
-        close_card()
+        plot_in_card(fig)
 
         col1, col2 = st.columns(2)
-
         with col1:
-            open_card()
             sales_by_category = (
-                filtered_df.groupby("category")["sales"]
+                filtered_df.groupby("category", as_index=False)["sales"]
                 .sum()
-                .reset_index()
-                .sort_values(by="sales", ascending=False)
+                .sort_values("sales", ascending=False)
             )
             fig = px.bar(sales_by_category, x="category", y="sales", title="Sales by Category")
-            st.plotly_chart(beautify_fig(fig), use_container_width=True)
-            close_card()
+            plot_in_card(fig)
 
         with col2:
-            open_card()
             top_products = (
-                filtered_df.groupby("product_name")["sales"]
+                filtered_df.groupby("product_name", as_index=False)["sales"]
                 .sum()
-                .reset_index()
-                .sort_values(by="sales", ascending=False)
+                .sort_values("sales", ascending=False)
                 .head(10)
             )
             fig = px.bar(top_products, x="product_name", y="sales", title="Top 10 Products by Revenue")
-            st.plotly_chart(beautify_fig(fig), use_container_width=True)
-            close_card()
+            plot_in_card(fig)
 
     with tab2:
         col1, col2 = st.columns(2)
-
         with col1:
-            open_card()
             cat_profit = (
-                filtered_df.groupby("category")["profit"]
+                filtered_df.groupby("category", as_index=False)["profit"]
                 .sum()
-                .reset_index()
-                .sort_values(by="profit", ascending=False)
+                .sort_values("profit", ascending=False)
             )
             fig = px.bar(cat_profit, x="category", y="profit", title="Profit by Category")
-            st.plotly_chart(beautify_fig(fig), use_container_width=True)
-            close_card()
+            plot_in_card(fig)
 
         with col2:
-            open_card()
             cat_discount = (
-                filtered_df.groupby("category")["discount"]
+                filtered_df.groupby("category", as_index=False)["discount"]
                 .mean()
-                .reset_index()
-                .sort_values(by="discount", ascending=False)
+                .sort_values("discount", ascending=False)
             )
             fig = px.bar(cat_discount, x="category", y="discount", title="Average Discount by Category")
-            st.plotly_chart(beautify_fig(fig), use_container_width=True)
-            close_card()
+            plot_in_card(fig)
 
-        open_card()
         loss_bysubcat = (
             filtered_df[filtered_df["profit"] < 0]
-            .groupby("sub-category")["profit"]
+            .groupby("sub-category", as_index=False)["profit"]
             .sum()
-            .reset_index()
-            .sort_values(by="profit")
+            .sort_values("profit")
         )
         fig = px.bar(loss_bysubcat, x="sub-category", y="profit", title="Loss-Making Sub-Categories")
-        st.plotly_chart(beautify_fig(fig), use_container_width=True)
-        close_card()
+        plot_in_card(fig)
 
     with tab3:
         col1, col2 = st.columns(2)
 
         with col1:
-            open_card()
             return_rate_by_region = (
                 filtered_df.groupby("region")["returned"]
                 .apply(lambda x: (x == "Yes").mean())
-                .reset_index()
-                .sort_values(by="returned", ascending=False)
+                .reset_index(name="return_rate")
+                .sort_values("return_rate", ascending=False)
             )
-            fig = px.bar(return_rate_by_region, x="region", y="returned", title="Return Rate by Region")
-            st.plotly_chart(beautify_fig(fig), use_container_width=True)
-            close_card()
+            fig = px.bar(return_rate_by_region, x="region", y="return_rate", title="Return Rate by Region")
+            plot_in_card(fig)
 
         with col2:
-            open_card()
             return_rate_by_category = (
                 filtered_df.groupby("category")["returned"]
                 .apply(lambda x: (x == "Yes").mean())
-                .reset_index()
-                .sort_values(by="returned", ascending=False)
+                .reset_index(name="return_rate")
+                .sort_values("return_rate", ascending=False)
             )
-            fig = px.bar(return_rate_by_category, x="category", y="returned", title="Return Rate by Category")
-            st.plotly_chart(beautify_fig(fig), use_container_width=True)
-            close_card()
+            fig = px.bar(return_rate_by_category, x="category", y="return_rate", title="Return Rate by Category")
+            plot_in_card(fig)
 
     with tab4:
         col1, col2 = st.columns(2)
 
         with col1:
-            open_card()
             segment_sales = (
-                filtered_df.groupby("segment")["sales"]
+                filtered_df.groupby("segment", as_index=False)["sales"]
                 .sum()
-                .reset_index()
-                .sort_values(by="sales", ascending=False)
+                .sort_values("sales", ascending=False)
             )
             fig = px.bar(segment_sales, x="segment", y="sales", title="Sales by Customer Segment")
-            st.plotly_chart(beautify_fig(fig), use_container_width=True)
-            close_card()
+            plot_in_card(fig)
 
         with col2:
-            open_card()
             most_active_person = (
                 filtered_df.groupby(["region", "person"])["order_id"]
                 .count()
                 .reset_index(name="order_count")
-                .sort_values(by=["region", "order_count"], ascending=[True, False])
+                .sort_values(["region", "order_count"], ascending=[True, False])
             )
             most_active_person = most_active_person.groupby("region").head(1)
             fig = px.bar(most_active_person, x="person", y="order_count", title="Most Active Person by Region")
-            st.plotly_chart(beautify_fig(fig), use_container_width=True)
-            close_card()
+            plot_in_card(fig)
 
-        avg_order_value = filtered_df.groupby("order_id")["sales"].sum().mean()
+        avg_order_value = filtered_df.groupby("order_id")["sales"].sum().mean() if len(filtered_df) else 0
         kpi_card(f"${avg_order_value:,.2f}", "Average Order Value")
 
     with tab5:
         col1, col2 = st.columns(2)
 
         with col1:
-            open_card()
             sales_by_person = (
-                filtered_df.groupby("person")["sales"]
+                filtered_df.groupby("person", as_index=False)["sales"]
                 .sum()
-                .reset_index()
-                .sort_values(by="sales", ascending=False)
+                .sort_values("sales", ascending=False)
                 .head(10)
             )
             fig = px.bar(sales_by_person, x="person", y="sales", title="Sales by Person")
-            st.plotly_chart(beautify_fig(fig), use_container_width=True)
-            close_card()
+            plot_in_card(fig)
 
         with col2:
-            open_card()
             profit_by_person = (
-                filtered_df.groupby("person")["profit"]
+                filtered_df.groupby("person", as_index=False)["profit"]
                 .sum()
-                .reset_index()
-                .sort_values(by="profit", ascending=False)
+                .sort_values("profit", ascending=False)
                 .head(10)
             )
             fig = px.bar(profit_by_person, x="person", y="profit", title="Profit by Person")
-            st.plotly_chart(beautify_fig(fig), use_container_width=True)
-            close_card()
+            plot_in_card(fig)
 
     with tab6:
         col1, col2 = st.columns(2)
 
         with col1:
-            open_card()
             fig = px.histogram(filtered_df, x="ship_mode", title="Shipping Mode Distribution")
-            st.plotly_chart(beautify_fig(fig), use_container_width=True)
-            close_card()
+            plot_in_card(fig)
 
         with col2:
-            open_card()
             shipping_by_year = (
                 filtered_df.groupby(filtered_df["ship_date"].dt.year)["shipping_cost"]
                 .sum()
@@ -807,8 +926,7 @@ elif page == "Detailed Analysis":
             shipping_by_year.columns = ["year", "shipping_cost"]
             fig = px.line(shipping_by_year, x="year", y="shipping_cost", markers=True, title="Total Shipping Cost by Year")
             fig.update_xaxes(tickmode="linear", dtick=1)
-            st.plotly_chart(beautify_fig(fig), use_container_width=True)
-            close_card()
+            plot_in_card(fig)
 
         total_shipping_cost = filtered_df["shipping_cost"].sum()
         kpi_card(f"${total_shipping_cost:,.2f}", "Total Shipping Cost")
@@ -820,8 +938,7 @@ elif page == "Detailed Analysis":
 # =========================================================
 elif page == "Insights & Recommendations":
     st.markdown('<div class="page-shell">', unsafe_allow_html=True)
-
-    section_title("Insights & Recommendations", "Actionable business table.")
+    section_title("Insights & Recommendations", "Actionable findings and recommended business actions.")
 
     insights_data = [
         ["Shipping", "Standard Class is the most commonly used shipping mode, indicating a strong preference for low-cost delivery.", "Optimize Standard Class operations and negotiate better shipping rates to reduce cost."],
@@ -839,10 +956,7 @@ elif page == "Insights & Recommendations":
         ["Category Returns", "Office Supplies also shows a high return rate compared to other categories.", "Analyze Office Supplies return reasons and improve product descriptions or quality checks."],
     ]
 
-    insights_df = pd.DataFrame(
-        insights_data,
-        columns=["Area", "Insight / Problem", "Recommendation"]
-    )
+    insights_df = pd.DataFrame(insights_data, columns=["Area", "Insight / Problem", "Recommendation"])
 
     st.markdown(
         insights_df.to_html(index=False, classes="insights-table", escape=False),
@@ -858,4 +972,3 @@ st.markdown("""
 <hr>
 <div class="footer">Built with Streamlit • Global Superstore Project</div>
 """, unsafe_allow_html=True)
-
