@@ -490,7 +490,7 @@ div[data-testid="stVerticalBlockBorderWrapper"] {{
 }}
 
 .kpi-card:hover,
-.project-card:hover:hover,
+.project-card:hover,
 div[data-testid="stVerticalBlockBorderWrapper"]:hover {{
     transform: translateY(-5px);
     border-color: rgba(37,99,235,0.35) !important;
@@ -525,7 +525,13 @@ def load_data(file_path: str = "df_clean.csv") -> pd.DataFrame:
         st.error("Dataset file not found. Please place `df_clean.csv` in the same folder as this app.")
         st.stop()
 
-    data.columns = data.columns.str.strip().str.lower().str.replace(" ", "_")
+    data.columns = (
+        data.columns
+        .str.strip()
+        .str.lower()
+        .str.replace(" ", "_", regex=False)
+        .str.replace("-", "_", regex=False)
+    )
 
     required_columns = {
         "order_date", "ship_date", "sales", "profit", "order_id",
@@ -588,6 +594,9 @@ def section_title(title, subtitle):
 def plot_in_card(fig):
     with st.container(border=True):
         st.plotly_chart(beautify_fig(fig), use_container_width=True)
+
+def safe_bar_message(column_name):
+    st.info(f"Column `{column_name}` is not available in this dataset.")
 
 def apply_filters(base_df):
     filtered = base_df.copy()
@@ -665,7 +674,6 @@ if page == "Home":
         """
         <div class="hero">
             <div class="hero-content">
-                
                 <h1>Global Superstore Dashboard</h1>
                 <p>
                     A professional dashboard designed to monitor sales growth, profitability,
@@ -762,25 +770,49 @@ elif page == "Detailed Analysis":
         fig.update_xaxes(tickmode="linear", dtick=1)
         plot_in_card(fig)
 
+        CHART_HEIGHT = 500
         col1, col2 = st.columns(2)
+
         with col1:
             sales_by_category = (
                 filtered_df.groupby("category", as_index=False)["sales"]
                 .sum()
                 .sort_values("sales", ascending=False)
             )
-            fig = px.bar(sales_by_category, x="category", y="sales", title="Sales by Category")
+
+            fig = px.bar(
+                sales_by_category,
+                x="category",
+                y="sales",
+                title="Sales by Category"
+            )
+            fig.update_layout(height=CHART_HEIGHT)
             plot_in_card(fig)
 
         with col2:
-            top_products = (
-                filtered_df.groupby("product_name", as_index=False)["sales"]
-                .sum()
-                .sort_values("sales", ascending=False)
-                .head(10)
-            )
-            fig = px.bar(top_products, x="product_name", y="sales", title="Top 10 Products by Revenue")
-            plot_in_card(fig)
+            if "product_name" in filtered_df.columns:
+                top_products = (
+                    filtered_df.groupby("product_name", as_index=False)["sales"]
+                    .sum()
+                    .sort_values("sales", ascending=False)
+                    .head(10)
+                )
+
+                fig = px.bar(
+                    top_products.sort_values("sales"),
+                    x="sales",
+                    y="product_name",
+                    orientation="h",
+                    title="Top 10 Products by Revenue"
+                )
+                fig.update_layout(
+                    yaxis=dict(title="", automargin=True),
+                    xaxis=dict(title="Sales"),
+                    height=CHART_HEIGHT
+                )
+                plot_in_card(fig)
+            else:
+                safe_bar_message("product_name")
 
     with tab2:
         col1, col2 = st.columns(2)
@@ -802,14 +834,19 @@ elif page == "Detailed Analysis":
             fig = px.bar(cat_discount, x="category", y="discount", title="Average Discount by Category")
             plot_in_card(fig)
 
-        loss_bysubcat = (
-            filtered_df[filtered_df["profit"] < 0]
-            .groupby("sub-category", as_index=False)["profit"]
-            .sum()
-            .sort_values("profit")
-        )
-        fig = px.bar(loss_bysubcat, x="sub-category", y="profit", title="Loss-Making Sub-Categories")
-        plot_in_card(fig)
+        subcat_col = "sub_category" if "sub_category" in filtered_df.columns else None
+
+        if subcat_col:
+            loss_bysubcat = (
+                filtered_df[filtered_df["profit"] < 0]
+                .groupby(subcat_col, as_index=False)["profit"]
+                .sum()
+                .sort_values("profit")
+            )
+            fig = px.bar(loss_bysubcat, x=subcat_col, y="profit", title="Loss-Making Sub-Categories")
+            plot_in_card(fig)
+        else:
+            safe_bar_message("sub_category")
 
     with tab3:
         if "returned" not in filtered_df.columns:
@@ -841,24 +878,30 @@ elif page == "Detailed Analysis":
         col1, col2 = st.columns(2)
 
         with col1:
-            segment_sales = (
-                filtered_df.groupby("segment", as_index=False)["sales"]
-                .sum()
-                .sort_values("sales", ascending=False)
-            )
-            fig = px.bar(segment_sales, x="segment", y="sales", title="Sales by Customer Segment")
-            plot_in_card(fig)
+            if "segment" in filtered_df.columns:
+                segment_sales = (
+                    filtered_df.groupby("segment", as_index=False)["sales"]
+                    .sum()
+                    .sort_values("sales", ascending=False)
+                )
+                fig = px.bar(segment_sales, x="segment", y="sales", title="Sales by Customer Segment")
+                plot_in_card(fig)
+            else:
+                safe_bar_message("segment")
 
         with col2:
-            most_active_person = (
-                filtered_df.groupby(["region", "person"])["order_id"]
-                .count()
-                .reset_index(name="order_count")
-                .sort_values(["region", "order_count"], ascending=[True, False])
-            )
-            most_active_person = most_active_person.groupby("region").head(1)
-            fig = px.bar(most_active_person, x="person", y="order_count", title="Most Active Person by Region")
-            plot_in_card(fig)
+            if "person" in filtered_df.columns:
+                most_active_person = (
+                    filtered_df.groupby(["region", "person"])["order_id"]
+                    .count()
+                    .reset_index(name="order_count")
+                    .sort_values(["region", "order_count"], ascending=[True, False])
+                )
+                most_active_person = most_active_person.groupby("region").head(1)
+                fig = px.bar(most_active_person, x="person", y="order_count", title="Most Active Person by Region")
+                plot_in_card(fig)
+            else:
+                safe_bar_message("person")
 
         avg_order_value = filtered_df.groupby("order_id")["sales"].sum().mean() if len(filtered_df) else 0
         kpi_card(f"${avg_order_value:,.2f}", "Average Order Value")
@@ -866,32 +909,38 @@ elif page == "Detailed Analysis":
     with tab5:
         col1, col2 = st.columns(2)
 
-        with col1:
-            sales_by_person = (
-                filtered_df.groupby("person", as_index=False)["sales"]
-                .sum()
-                .sort_values("sales", ascending=False)
-                .head(10)
-            )
-            fig = px.bar(sales_by_person, x="person", y="sales", title="Sales by Person")
-            plot_in_card(fig)
+        if "person" not in filtered_df.columns:
+            safe_bar_message("person")
+        else:
+            with col1:
+                sales_by_person = (
+                    filtered_df.groupby("person", as_index=False)["sales"]
+                    .sum()
+                    .sort_values("sales", ascending=False)
+                    .head(10)
+                )
+                fig = px.bar(sales_by_person, x="person", y="sales", title="Sales by Person")
+                plot_in_card(fig)
 
-        with col2:
-            profit_by_person = (
-                filtered_df.groupby("person", as_index=False)["profit"]
-                .sum()
-                .sort_values("profit", ascending=False)
-                .head(10)
-            )
-            fig = px.bar(profit_by_person, x="person", y="profit", title="Profit by Person")
-            plot_in_card(fig)
+            with col2:
+                profit_by_person = (
+                    filtered_df.groupby("person", as_index=False)["profit"]
+                    .sum()
+                    .sort_values("profit", ascending=False)
+                    .head(10)
+                )
+                fig = px.bar(profit_by_person, x="person", y="profit", title="Profit by Person")
+                plot_in_card(fig)
 
     with tab6:
         col1, col2 = st.columns(2)
 
         with col1:
-            fig = px.histogram(filtered_df, x="ship_mode", title="Shipping Mode Distribution")
-            plot_in_card(fig)
+            if "ship_mode" in filtered_df.columns:
+                fig = px.histogram(filtered_df, x="ship_mode", title="Shipping Mode Distribution")
+                plot_in_card(fig)
+            else:
+                safe_bar_message("ship_mode")
 
         with col2:
             shipping_by_year = (
