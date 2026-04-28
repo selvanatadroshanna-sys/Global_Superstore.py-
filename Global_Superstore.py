@@ -665,7 +665,7 @@ if page == "Home":
         """
         <div class="hero">
             <div class="hero-content">
-                <div class="hero-badge">📊 Modern Business Analytics</div>
+                
                 <h1>Global Superstore Dashboard</h1>
                 <p>
                     A professional dashboard designed to monitor sales growth, profitability,
