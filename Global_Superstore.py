@@ -961,7 +961,7 @@ elif page == "Detailed Analysis":
 # =========================================================
 # INSIGHTS & RECOMMENDATIONS
 # =========================================================
-       elif page == "Insights & Recommendations":
+elif page == "Insights & Recommendations":
         st.markdown('<div class="page-shell">', unsafe_allow_html=True)
         section_title("Insights & Recommendations", "Actionable findings and recommended business actions.")
     
@@ -986,7 +986,7 @@ elif page == "Detailed Analysis":
             columns=["Area", "Insight", "Recommendation"]
         )
     
-        # 🧾 عرض Table
+        
         st.markdown(
             df_insights.to_html(index=False, classes="insights-table"),
             unsafe_allow_html=True
