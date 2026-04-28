@@ -1,5 +1,3 @@
-
-
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -9,105 +7,45 @@ import numpy as np
 st.set_page_config(page_title='Global_Superstore',layout='wide')
 st.markdown("""
 <style>
-/* General App */
-.stApp {
-    background: linear-gradient(135deg, #f8fbff 0%, #eef4ff 100%);
-}
-
-/* Main container */
-.block-container {
-    padding-top: 1.5rem;
-    padding-bottom: 2rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-}
-
-/* Sidebar */
-section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
-}
-section[data-testid="stSidebar"] * {
-    color: white !important;
-}
-
-/* Titles */
-h1, h2, h3 {
-    color: #0f172a;
-    font-weight: 700;
-}
-
-/* KPI cards */
-.kpi-card {
-    background: white;
-    padding: 20px;
-    border-radius: 18px;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
-    border: 1px solid #e2e8f0;
-    text-align: center;
-}
-.kpi-title {
-    font-size: 15px;
-    color: #64748b;
-    margin-bottom: 8px;
-}
-.kpi-value {
-    font-size: 30px;
-    font-weight: 700;
-    color: #0f172a;
-}
-
-/* Section cards */
-.custom-card {
-    background: rgba(255,255,255,0.92);
-    padding: 18px;
-    border-radius: 18px;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
-    border: 1px solid #e2e8f0;
-    margin-bottom: 20px;
-}
-
-/* Tabs */
-.stTabs [data-baseweb="tab-list"] {
-    gap: 8px;
-}
-.stTabs [data-baseweb="tab"] {
-    background: #e2e8f0;
-    border-radius: 12px;
-    padding: 10px 18px;
-}
-.stTabs [aria-selected="true"] {
-    background: #2563eb !important;
-    color: white !important;
-}
-
-/* Buttons */
-.stButton>button {
-    background: linear-gradient(90deg, #2563eb, #1d4ed8);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    padding: 0.6rem 1rem;
-    font-weight: 600;
-}
-.stButton>button:hover {
-    background: linear-gradient(90deg, #1d4ed8, #1e40af);
-    color: white;
-}
-
-/* Metric box enhancement */
-div[data-testid="metric-container"] {
-    background: white;
-    border: 1px solid #e2e8f0;
-    padding: 15px;
-    border-radius: 16px;
-    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
-}
-
-/* Dataframe */
-div[data-testid="stDataFrame"] {
-    border-radius: 14px;
-    overflow: hidden;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+:root { --navy: #0f172a; --blue: #2563eb; --muted: #64748b; --line: #e2e8f0; --card: rgba(255,255,255,0.92); }
+html, body, [class*="css"] { font-family: 'Inter', Arial, sans-serif; }
+.stApp { background: radial-gradient(circle at top left, rgba(37,99,235,0.14), transparent 32%), linear-gradient(135deg, #f8fbff 0%, #eef4ff 100%); }
+.block-container { padding-top: 1.25rem; padding-bottom: 2rem; max-width: 1280px; }
+section[data-testid="stSidebar"] { display: none; }
+.app-header { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 58%, #2563eb 100%); color: white; padding: 26px 30px; border-radius: 26px; box-shadow: 0 18px 45px rgba(15,23,42,0.22); margin-bottom: 18px; }
+.app-header h1 { color: white; font-size: 34px; margin: 0 0 8px 0; letter-spacing: -0.6px; }
+.app-header p { color: #dbeafe; margin: 0; font-size: 16px; }
+div[data-testid="stRadio"] > label { display: none; }
+div[role="radiogroup"] { display: flex; gap: 10px; flex-wrap: wrap; background: rgba(255,255,255,0.86); backdrop-filter: blur(12px); padding: 10px; border-radius: 22px; border: 1px solid var(--line); box-shadow: 0 12px 32px rgba(15,23,42,0.10); margin-bottom: 22px; }
+div[role="radiogroup"] label { border-radius: 16px !important; padding: 11px 18px !important; background: transparent; border: 1px solid transparent; color: var(--navy) !important; font-weight: 700; transition: all 0.2s ease; }
+div[role="radiogroup"] label:hover { background: #eff6ff; border-color: #bfdbfe; }
+div[role="radiogroup"] label[data-checked="true"] { background: linear-gradient(90deg, #2563eb, #1d4ed8) !important; color: white !important; box-shadow: 0 10px 20px rgba(37,99,235,0.25); }
+.page-card, .custom-card { background: var(--card); padding: 22px; border-radius: 24px; border: 1px solid var(--line); box-shadow: 0 12px 32px rgba(15,23,42,0.08); margin-bottom: 22px; }
+.section-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.section-title h2, .section-title h3 { margin: 0; color: var(--navy); }
+.section-title span { color: var(--muted); font-size: 14px; }
+.hero { position: relative; min-height: 520px; border-radius: 30px; overflow: hidden; background-image: linear-gradient(90deg, rgba(15,23,42,0.78), rgba(15,23,42,0.35)), url("https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1600&q=80"); background-size: cover; background-position: center; box-shadow: 0 22px 55px rgba(15,23,42,0.20); border: 1px solid rgba(255,255,255,0.24); }
+.hero-content { position: absolute; left: 42px; bottom: 42px; max-width: 660px; color: white; }
+.hero-badge { display: inline-block; background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.28); padding: 8px 13px; border-radius: 999px; color: #dbeafe; font-weight: 700; margin-bottom: 18px; }
+.hero h1 { color: white; font-size: 58px; line-height: 1.02; margin: 0 0 16px 0; letter-spacing: -1.4px; }
+.hero p { color: #e0f2fe; font-size: 18px; line-height: 1.6; margin-bottom: 24px; }
+.hero-stats { display: flex; gap: 12px; flex-wrap: wrap; }
+.hero-stat { background: rgba(255,255,255,0.13); border: 1px solid rgba(255,255,255,0.24); border-radius: 18px; padding: 14px 18px; min-width: 135px; }
+.hero-stat strong { display: block; font-size: 22px; color: white; }
+.hero-stat small { color: #cbd5e1; }
+.kpi-card { background: white; padding: 22px; border-radius: 22px; box-shadow: 0 12px 32px rgba(15,23,42,0.08); border: 1px solid var(--line); text-align: left; }
+.kpi-title { font-size: 14px; color: var(--muted); margin-bottom: 10px; font-weight: 700; }
+.kpi-value { font-size: 30px; font-weight: 800; color: var(--navy); }
+.stTabs [data-baseweb="tab-list"] { gap: 10px; }
+.stTabs [data-baseweb="tab"] { background: white; border: 1px solid var(--line); border-radius: 14px; padding: 10px 18px; font-weight: 700; }
+.stTabs [aria-selected="true"] { background: #2563eb !important; color: white !important; }
+div[data-testid="metric-container"] { background: white; border: 1px solid var(--line); padding: 16px; border-radius: 18px; box-shadow: 0 8px 22px rgba(15,23,42,0.07); }
+.insights-table { width: 100%; border-collapse: separate; border-spacing: 0 12px; }
+.insights-table th { background: #0f172a; color: white; padding: 15px; text-align: left; font-size: 14px; }
+.insights-table td { background: white; padding: 15px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); vertical-align: top; color: #334155; }
+.insights-table td:first-child, .insights-table th:first-child { border-radius: 16px 0 0 16px; font-weight: 800; color: #1d4ed8; }
+.insights-table td:last-child, .insights-table th:last-child { border-radius: 0 16px 16px 0; }
 </style>
 """, unsafe_allow_html=True)
 @st.cache_data
@@ -137,87 +75,68 @@ def beautify_fig(fig):
     fig.update_yaxes(showgrid=True, gridcolor="#e2e8f0", linecolor="#cbd5e1")
     return fig
 
-# Sidebar Navigation
-page = st.sidebar.radio(
+st.markdown("""
+<div class="app-header">
+    <h1>Global Superstore Analytics Dashboard</h1>
+    <p>Professional analytics experience for sales, profit, returns, customers, and shipping performance.</p>
+</div>
+""", unsafe_allow_html=True)
+
+# Top Navigation
+page = st.radio(
     "Navigation",
-    [   "Home",
+    [
+        "Home",
         "Summary Dashboard",
         "Detailed Analysis",
         "Insights & Recommendations"
-    ]
+    ],
+    horizontal=True
 )
-st.markdown("""
-<div class="custom-card">
-    <h1 style="margin-bottom:6px;">Global Superstore Analytics Dashboard</h1>
-    <p style="color:#475569; font-size:16px; margin-bottom:0;">
-        Interactive business dashboard for analyzing sales, profit, returns, customers, and shipping performance across global markets.
-    </p>
-</div>
-""", unsafe_allow_html=True)
-region_filter=st.sidebar.multiselect('Region',options=df['region'].unique(),default=df['region'].unique())
-df['year']=df['order_date'].dt.year
-minyear,maxyear=st.sidebar.slider('Years',int(df['year'].min()),int(df['year'].max()),(int(df['year'].min()),int(df['year'].max())))
-filtered_df = df[df['region'].isin(region_filter)&(df['year'].between(minyear,maxyear))].copy()
+
+# No top filters requested - use the full dataset across all pages
+filtered_df = df.copy()
+
 if page == "Home":
+    total_sales_home = filtered_df["sales"].sum()
+    total_profit_home = filtered_df["profit"].sum()
+    total_orders_home = filtered_df["order_id"].nunique()
+
     st.markdown(
         f"""
-        <style>
-        .hero {{
-            position: relative;
-            height: 80vh;
-            background-image: url("https://img.freepik.com/premium-photo/store-with-lot-cans-beer-shelf_939033-80225.jpg?semt=ais_hybrid&w=740&q=80");
-            background-size: cover;
-            background-position: center;
-        }}
-
-        .hero::before {{
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            backdrop-filter: blur(3px);
-            background: rgba(0,0,0,0.4);
-        }}
-
-        .hero-content {{
-            position: relative;
-            z-index: 1;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
-        }}
-
-        .hero h1 {{
-            font-size: 50px;
-            margin-bottom: 10px;
-        }}
-
-        .hero p {{
-            font-size: 20px;
-            color: #ddd;
-        }}
-        </style>
-
         <div class="hero">
             <div class="hero-content">
+                <div class="hero-badge">Executive Dashboard</div>
                 <h1>Global Superstore Dashboard</h1>
-                <p>Analyze sales, profit, customers, and performance across regions and years.</p>
+                <p>Explore business performance across sales, profitability, customer behavior, returns, and logistics through a clean professional reporting interface.</p>
+                <div class="hero-stats">
+                    <div class="hero-stat"><strong>${total_sales_home:,.0f}</strong><small>Total Sales</small></div>
+                    <div class="hero-stat"><strong>${total_profit_home:,.0f}</strong><small>Total Profit</small></div>
+                    <div class="hero-stat"><strong>{total_orders_home:,}</strong><small>Total Orders</small></div>
+                </div>
             </div>
         </div>
         """,
         unsafe_allow_html=True
     )
 
+    st.markdown("""
+    <div class="page-card">
+        <div class="section-title">
+            <h3>What this dashboard covers</h3>
+            <span>Sales • Profit • Customers • Shipping • Returns</span>
+        </div>
+        <p style="color:#475569; line-height:1.7; margin-bottom:0;">
+            Use the top navigation to move between the executive summary, detailed analysis, and the final recommendations table.
+            The layout is clean with no filters on the Home page, keeping the first screen focused and presentation-ready.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
 # 1. Summary Dashboard for Top Management
 
 elif page == "Summary Dashboard":
-    st.header("Summary Dashboard")
+    st.markdown('<div class="section-title"><h2>Summary Dashboard</h2><span>Executive overview</span></div>', unsafe_allow_html=True)
 
     # KPIs
     # Total Sales, Profit, Orders, Return Rate
@@ -281,7 +200,7 @@ elif page == "Summary Dashboard":
  # 2. Detailed Analysis
 
 elif page == "Detailed Analysis":
-    st.header("Detailed Analysis")
+    st.markdown('<div class="section-title"><h2>Detailed Analysis</h2><span>Drill-down views</span></div>', unsafe_allow_html=True)
 
     tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
         "Sales",
@@ -401,53 +320,46 @@ elif page == "Detailed Analysis":
  # 3. Insights & Recommendations
 
 elif page == "Insights & Recommendations":
-    st.header("Insights & Recommendations")
+    st.markdown('<div class="section-title"><h2>Insights & Recommendations</h2><span>Actionable business table</span></div>', unsafe_allow_html=True)
 
-    # Key Insights
-    st.subheader("Key Insights")
+    insights_data = [
+        ["Shipping", "Standard Class is the most commonly used shipping mode, indicating a strong preference for low-cost delivery.", "Optimize Standard Class operations and negotiate better shipping rates to reduce cost."],
+        ["Customer Segment", "The Consumer segment is the dominant and most profitable segment, making it the primary revenue driver.", "Prioritize Consumer-focused campaigns and loyalty offers."],
+        ["Category Demand", "Office Supplies is the most frequent category, showing consistent and recurring demand.", "Maintain strong stock availability for recurring Office Supplies demand."],
+        ["Sub-Category Demand", "Binders is one of the most popular sub-categories in terms of order frequency.", "Bundle Binders with related Office Supplies products to increase order value."],
+        ["Market Performance", "The Asia Pacific market shows strong sales presence compared to other markets.", "Leverage Asia Pacific performance for further business expansion."],
+        ["Sales Distribution", "Sales, Profit, and Shipping Cost are right-skewed, meaning a few large orders drive overall performance.", "Reduce dependency on large orders by increasing repeat purchases and mid-value orders."],
+        ["Profit Variability", "Profit has many outliers, indicating high variability in margins across orders.", "Review pricing and discount rules to make margins more consistent."],
+        ["Top Profit Category", "Technology generates the highest profit, making it the most valuable category.", "Promote Technology products and expand high-margin Technology offerings."],
+        ["Discount Risk", "Furniture has the highest average discount, which may reduce profitability.", "Re-evaluate Furniture discounts and set minimum margin thresholds."],
+        ["Loss-Making Areas", "Some sub-categories such as Tables generate consistent losses despite sales activity.", "Improve Tables pricing, reduce costs, or limit aggressive discounts."],
+        ["Discount vs Profit", "Higher discounts are generally associated with lower profitability.", "Use targeted discounts only where they improve volume without damaging margin."],
+        ["Returns", "Eastern Africa has the highest return rate among regions.", "Investigate quality, logistics, and customer satisfaction issues in high-return regions."],
+        ["Category Returns", "Office Supplies also shows a high return rate compared to other categories.", "Analyze Office Supplies return reasons and improve product descriptions or quality checks."],
+    ]
 
-    st.markdown("""
-    -Standard Class is the most commonly used shipping mode, indicating a strong preference for low-cost delivery.
-    - The Consumer segment is the dominant and most profitable segment, making it the primary revenue driver.
-    - Office Supplies is the most frequent category, showing consistent and recurring demand.
-    - Binders is one of the most popular sub-categories in terms of order frequency.
-    - The Asia Pacific market shows strong sales presence compared to other markets.
-    - Sales, Profit, and Shipping Cost distributions are right-skewed, meaning most transactions are small, with a few very large orders driving overall performance.
-    - Profit has the highest number of outliers, indicating high variability in margins across orders.
-    - The Technology category generates the highest profit, making it the most valuable category for the business.
-    - The Furniture category has the highest average discount, which may impact profitability.
-    - Some sub-categories (e.g., Tables) generate consistent losses despite sales activity.
-    - Higher discounts are generally associated with lower profitability.
-    - Eastern Africa has the highest return rate among regions.
-    - Office Supplies also shows a high return rate compared to other categories.
-    """)
-    
-    # Business Problems
-    st.subheader("Business Problems")
-
-    st.markdown("""
-    - High discounts in certain categories (especially Furniture) are negatively impacting profit margins.
-    - Some sub-categories are loss-making, indicating inefficient pricing or cost structures.
-    - Profit variability is high, suggesting inconsistent pricing or discount strategies.
-    - Certain regions (e.g., Eastern Africa) have high return rates, which may indicate quality, logistics, or customer satisfaction issues.
-    - The business relies heavily on a small number of high-value orders, which increases revenue risk.
-    """)
-    # Recommendations
-    st.subheader("Recommendations")
+    insights_df = pd.DataFrame(
+        insights_data,
+        columns=["Area", "Insight / Problem", "Recommendation"]
+    )
 
     st.markdown("""
-    - Re-evaluate discount strategies, especially in low-margin categories like Furniture.
-    - Focus on promoting and expanding Technology products, as they generate the highest profit.
-    - Investigate and improve loss-making sub-categories  (Tables,.. etc) through pricing or cost optimization.
-    - Analyze return patterns in high-return regions ( Eastern Africa,.. etc) to reduce returns and improve customer satisfaction.
-    - Optimize shipping and operational costs to improve overall profitability.
-    - Leverage high-performing markets like Asia Pacific for further business expansion.
-    """)
+    <div class="custom-card">
+        <h3 style="margin-top:0;">Insights, Business Problems & Recommendations</h3>
+        <p style="color:#64748b; margin-bottom:16px;">
+            A structured summary of the main findings and recommended actions.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown(
+        insights_df.to_html(index=False, classes="insights-table", escape=False),
+        unsafe_allow_html=True
+    )
+
 st.markdown("""
 <hr style="margin-top:10px; margin-bottom:10px;">
 <p style="text-align:center; color:#64748b; font-size:14px;">
 Built with Streamlit • Global Superstore Project 
 </p>
 """, unsafe_allow_html=True)
-  
-
