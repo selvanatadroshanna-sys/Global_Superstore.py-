@@ -3,12 +3,8 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# =========================================================
-# PAGE CONFIG
-# =========================================================
 st.set_page_config(
     page_title="Global Superstore Dashboard",
-    page_icon="🛒",
     layout="wide"
 )
 
@@ -604,14 +600,83 @@ def apply_filters(base_df):
     st.markdown('<div class="filter-panel"><div class="filter-heading">Filters</div>', unsafe_allow_html=True)
     c1, c2, c3, c4 = st.columns([1.15, 1.15, 1.15, 1.65])
 
+    region_options_all = sorted(base_df["region"].dropna().unique().tolist())
+    market_options_all = sorted(base_df["market"].dropna().unique().tolist())
+
+    # Keep filter values in session state so Region and Market can update each other
+    if "selected_region_filter" not in st.session_state:
+        st.session_state.selected_region_filter = "All Regions"
+    if "selected_market_filter" not in st.session_state:
+        st.session_state.selected_market_filter = "All Markets"
+
+    selected_region = st.session_state.selected_region_filter
+    selected_market = st.session_state.selected_market_filter
+
+    # If Market is selected, show only Regions available inside that Market
+    if selected_market != "All Markets":
+        region_options = sorted(
+            base_df.loc[base_df["market"] == selected_market, "region"]
+            .dropna()
+            .unique()
+            .tolist()
+        )
+    else:
+        region_options = region_options_all
+
+    if selected_region not in region_options and selected_region != "All Regions":
+        selected_region = "All Regions"
+        st.session_state.selected_region_filter = "All Regions"
+
+    # If Region is selected, show only Markets available inside that Region
+    if selected_region != "All Regions":
+        market_options = sorted(
+            base_df.loc[base_df["region"] == selected_region, "market"]
+            .dropna()
+            .unique()
+            .tolist()
+        )
+    else:
+        market_options = market_options_all
+
+    if selected_market not in market_options and selected_market != "All Markets":
+        selected_market = "All Markets"
+        st.session_state.selected_market_filter = "All Markets"
+
     with c1:
-        region = st.selectbox("Region", ["All Regions"] + sorted(base_df["region"].dropna().unique().tolist()))
+        region = st.selectbox(
+            "Region",
+            ["All Regions"] + region_options,
+            index=(["All Regions"] + region_options).index(selected_region),
+            key="selected_region_filter"
+        )
+
+    # Recalculate Market options immediately after Region choice
+    if region != "All Regions":
+        market_options = sorted(
+            base_df.loc[base_df["region"] == region, "market"]
+            .dropna()
+            .unique()
+            .tolist()
+        )
+    else:
+        market_options = market_options_all
+
+    if st.session_state.selected_market_filter not in market_options and st.session_state.selected_market_filter != "All Markets":
+        st.session_state.selected_market_filter = "All Markets"
 
     with c2:
-        market = st.selectbox("Market", ["All Markets"] + sorted(base_df["market"].dropna().unique().tolist()))
+        market = st.selectbox(
+            "Market",
+            ["All Markets"] + market_options,
+            index=(["All Markets"] + market_options).index(st.session_state.selected_market_filter),
+            key="selected_market_filter"
+        )
 
     with c3:
-        category = st.selectbox("Category", ["All Categories"] + sorted(base_df["category"].dropna().unique().tolist()))
+        category = st.selectbox(
+            "Category",
+            ["All Categories"] + sorted(base_df["category"].dropna().unique().tolist())
+        )
 
     with c4:
         min_year, max_year = int(base_df["year"].min()), int(base_df["year"].max())
@@ -643,7 +708,7 @@ if "selected_page" not in st.session_state:
 st.markdown(
     """
     <div class="top-header">
-        <div class="logo-box">🛒</div>
+        <div class="logo-box"></div>
         <div>
             <div class="header-title">Global Superstore Analytics Dashboard</div>
             <div class="header-subtitle">Interactive insights for sales, profit, customers, and operations</div>
@@ -696,11 +761,11 @@ if page == "Home":
                 actionable recommendations.
             </p>
             <div class="feature-grid">
-                <div class="feature-pill">📈 Sales Trends</div>
-                <div class="feature-pill">💰 Profitability</div>
-                <div class="feature-pill">🌍 Markets</div>
-                <div class="feature-pill">👥 Customers</div>
-                <div class="feature-pill">🚚 Shipping</div>
+                <div class="feature-pill">Sales Trends</div>
+                <div class="feature-pill"> Profitability</div>
+                <div class="feature-pill"> Markets</div>
+                <div class="feature-pill"> Customers</div>
+                <div class="feature-pill"> Shipping</div>
             </div>
         </div>
         """,
