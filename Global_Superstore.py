@@ -704,20 +704,23 @@ elif page == "Detailed Analysis":
                     .sort_values("sales", ascending=False)
                     .head(10)
                 )
+        
                 fig = px.bar(
-                        top_products.sort_values("sales"),   
-                        x="sales",
-                        y="product_name",
-                        orientation="h",
-                        title="Top 10 Products by Revenue"
-                    )
-                    
-                    fig.update_layout(
-                        yaxis=dict(title="", automargin=True),
-                        xaxis=dict(title="Sales"),
-                        height=500
-                    )
+                    top_products.sort_values("sales"),   
+                    x="sales",
+                    y="product_name",
+                    orientation="h",
+                    title="Top 10 Products by Revenue"
+                )
+        
+                fig.update_layout(
+                    yaxis=dict(title="", automargin=True),
+                    xaxis=dict(title="Sales"),
+                    height=500
+                )
+        
                 plot_in_card(fig)
+        
             else:
                 safe_bar_message("product_name")
 
