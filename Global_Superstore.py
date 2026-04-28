@@ -507,20 +507,7 @@ def apply_filters(base_df):
     filtered = base_df.copy()
 
     st.markdown('<div class="filter-panel"><div class="filter-heading">Filters</div>', unsafe_allow_html=True)
-    c1, c2, c3, c4 = st.columns([1.15, 1.15, 1.15, 1.65])
 
-    with c1:
-        region = st.selectbox("Region", ["All Regions"] + sorted(base_df["region"].dropna().unique().tolist()))
-
-    with c2:
-        market = st.selectbox("Market", ["All Markets"] + sorted(base_df["market"].dropna().unique().tolist()))
-
-    with c3:
-        category = st.selectbox("Category", ["All Categories"] + sorted(base_df["category"].dropna().unique().tolist()))
-
-    with c4:
-        min_year, max_year = int(base_df["year"].min()), int(base_df["year"].max())
-        years = st.slider("Years", min_year, max_year, (min_year, max_year))
 
     st.markdown("</div>", unsafe_allow_html=True)
 
