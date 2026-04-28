@@ -471,71 +471,71 @@ hr {{
 }}
 
 /* ================= SIMPLE PAGE TRANSITION ================= */
-.main .block-container {
+.main .block-container {{
     animation: pageFade 0.55s ease both;
-}
+}}
 
 .page-shell,
 .hero,
 .project-card,
 .filter-panel,
-.top-header {
+.top-header {{
     animation: pageFade 0.55s ease both;
-}
+}}
 
-@keyframes pageFade {
-    from {
+@keyframes pageFade {{
+    from {{
         opacity: 0;
         transform: translateY(10px);
-    }
-    to {
+    }}
+    to {{
         opacity: 1;
         transform: translateY(0);
-    }
-}
+    }}
+}}
 
 /* ================= FLOATING FILTER ================= */
-.filter-panel {
+.filter-panel {{
     position: sticky;
     top: 12px;
     z-index: 50;
     transition: all 0.25s ease;
-}
+}}
 
-.filter-panel:hover {
+.filter-panel:hover {{
     transform: translateY(-2px);
     box-shadow: 0 22px 48px rgba(15,23,42,0.14);
-}
+}}
 
 /* ================= STRONGER BUT SIMPLE HOVER ================= */
 .kpi-card,
 .project-card,
 .hero-kpi,
-div[data-testid="stVerticalBlockBorderWrapper"] {
+div[data-testid="stVerticalBlockBorderWrapper"] {{
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-}
+}}
 
 .kpi-card:hover,
 .project-card:hover,
 .hero-kpi:hover,
-div[data-testid="stVerticalBlockBorderWrapper"]:hover {
+div[data-testid="stVerticalBlockBorderWrapper"]:hover {{
     transform: translateY(-5px);
     border-color: rgba(37,99,235,0.35) !important;
     box-shadow: 0 26px 55px rgba(15,23,42,0.15) !important;
-}
+}}
 
 div[role="radiogroup"] label:hover,
-.stTabs [data-baseweb="tab"]:hover {
+.stTabs [data-baseweb="tab"]:hover {{
     transform: translateY(-2px);
-}
+}}
 
 /* make filter look like Power BI floating bar */
-.filter-panel {
+.filter-panel {{
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
     border-left: 5px solid #2563eb;
-}
+}}
 
 </style>
 """, unsafe_allow_html=True)
@@ -544,13 +544,32 @@ div[role="radiogroup"] label:hover,
 # DATA
 # =========================================================
 @st.cache_data
-def load_data():
-    df = pd.read_csv("df_clean.csv")
-    df["order_date"] = pd.to_datetime(df["order_date"])
-    df["ship_date"] = pd.to_datetime(df["ship_date"])
-    df["month"] = df["order_date"].dt.to_period("M").astype(str)
-    df["year"] = df["order_date"].dt.year
-    return df
+def load_data(file_path: str = "df_clean.csv") -> pd.DataFrame:
+    """Load and prepare the Global Superstore dataset."""
+    try:
+        data = pd.read_csv(file_path)
+    except FileNotFoundError:
+        st.error("Dataset file not found. Please place `df_clean.csv` in the same folder as this app.")
+        st.stop()
+
+    data.columns = data.columns.str.strip().str.lower().str.replace(" ", "_")
+
+    required_columns = {
+        "order_date", "ship_date", "sales", "profit", "order_id",
+        "region", "market", "category", "discount", "shipping_cost"
+    }
+    missing_columns = sorted(required_columns - set(data.columns))
+    if missing_columns:
+        st.error(f"Missing required columns: {', '.join(missing_columns)}")
+        st.stop()
+
+    data["order_date"] = pd.to_datetime(data["order_date"], errors="coerce")
+    data["ship_date"] = pd.to_datetime(data["ship_date"], errors="coerce")
+    data = data.dropna(subset=["order_date", "ship_date"])
+
+    data["month"] = data["order_date"].dt.to_period("M").astype(str)
+    data["year"] = data["order_date"].dt.year
+    return data
 
 df = load_data()
 
@@ -839,27 +858,30 @@ elif page == "Detailed Analysis":
         plot_in_card(fig)
 
     with tab3:
-        col1, col2 = st.columns(2)
+        if "returned" not in filtered_df.columns:
+            st.info("The `returned` column is not available in this dataset.")
+        else:
+            col1, col2 = st.columns(2)
 
-        with col1:
-            return_rate_by_region = (
-                filtered_df.groupby("region")["returned"]
-                .apply(lambda x: (x == "Yes").mean())
-                .reset_index(name="return_rate")
-                .sort_values("return_rate", ascending=False)
-            )
-            fig = px.bar(return_rate_by_region, x="region", y="return_rate", title="Return Rate by Region")
-            plot_in_card(fig)
+            with col1:
+                return_rate_by_region = (
+                    filtered_df.groupby("region")["returned"]
+                    .apply(lambda x: (x == "Yes").mean())
+                    .reset_index(name="return_rate")
+                    .sort_values("return_rate", ascending=False)
+                )
+                fig = px.bar(return_rate_by_region, x="region", y="return_rate", title="Return Rate by Region")
+                plot_in_card(fig)
 
-        with col2:
-            return_rate_by_category = (
-                filtered_df.groupby("category")["returned"]
-                .apply(lambda x: (x == "Yes").mean())
-                .reset_index(name="return_rate")
-                .sort_values("return_rate", ascending=False)
-            )
-            fig = px.bar(return_rate_by_category, x="category", y="return_rate", title="Return Rate by Category")
-            plot_in_card(fig)
+            with col2:
+                return_rate_by_category = (
+                    filtered_df.groupby("category")["returned"]
+                    .apply(lambda x: (x == "Yes").mean())
+                    .reset_index(name="return_rate")
+                    .sort_values("return_rate", ascending=False)
+                )
+                fig = px.bar(return_rate_by_category, x="category", y="return_rate", title="Return Rate by Category")
+                plot_in_card(fig)
 
     with tab4:
         col1, col2 = st.columns(2)
@@ -972,3 +994,4 @@ st.markdown("""
 <hr>
 <div class="footer">Built with Streamlit • Global Superstore Project</div>
 """, unsafe_allow_html=True)
+
