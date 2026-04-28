@@ -19,7 +19,7 @@ BG_IMAGE = "https://img.freepik.com/premium-photo/store-with-lot-cans-beer-shelf
 # =========================================================
 st.markdown(f"""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
 
 * {{
     font-family: 'Inter', sans-serif;
