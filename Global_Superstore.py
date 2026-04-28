@@ -176,13 +176,6 @@ div[role="radiogroup"] label p {{
 }}
 
 
-
-
-
-
-
-
-
 .project-card {{
     margin-top: 20px;
     background: rgba(255,255,255,0.92);
@@ -206,12 +199,7 @@ div[role="radiogroup"] label p {{
     margin: 0 0 14px 0;
 }}
 
-.feature-grid {{
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
-    margin-top: 16px;
-}}
+
 
 .feature-pill {{
     background: #f8fafc;
@@ -708,7 +696,6 @@ if "selected_page" not in st.session_state:
 st.markdown(
     """
     <div class="top-header">
-        <div class="logo-box"></div>
         <div>
             <div class="header-title">Global Superstore Analytics Dashboard</div>
             <div class="header-subtitle">Interactive insights for sales, profit, customers, and operations</div>
@@ -760,13 +747,7 @@ if page == "Home":
                 The dashboard turns raw transactional data into clear KPIs, interactive visuals, and
                 actionable recommendations.
             </p>
-            <div class="feature-grid">
-                <div class="feature-pill">Sales Trends</div>
-                <div class="feature-pill"> Profitability</div>
-                <div class="feature-pill"> Markets</div>
-                <div class="feature-pill"> Customers</div>
-                <div class="feature-pill"> Shipping</div>
-            </div>
+
         </div>
         """,
         unsafe_allow_html=True
