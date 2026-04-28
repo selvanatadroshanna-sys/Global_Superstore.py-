@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -19,7 +18,7 @@ BG_IMAGE = "https://img.freepik.com/premium-photo/store-with-lot-cans-beer-shelf
 # =========================================================
 st.markdown(f"""
 <style>
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 * {{
     font-family: 'Inter', sans-serif;
@@ -43,6 +42,10 @@ section[data-testid="stSidebar"] {{
     display: none;
 }}
 
+/* Hide radio circles */
+div[role="radiogroup"] label > div:first-child {{
+    display: none !important;
+}}
 
 /* ================= TOP HEADER ================= */
 .top-header {{
@@ -117,7 +120,7 @@ div[role="radiogroup"] label p {{
 
 /* ================= HOME ================= */
 .hero {{
-    min-height: 590px;
+    min-height: 430px;
     border-radius: 30px;
     position: relative;
     overflow: hidden;
@@ -141,7 +144,7 @@ div[role="radiogroup"] label p {{
 .hero-content {{
     position: relative;
     z-index: 2;
-    padding: 76px 70px 40px 70px;
+    padding: 76px 70px 70px 70px;
     max-width: 760px;
     color: white;
 }}
@@ -175,38 +178,13 @@ div[role="radiogroup"] label p {{
     margin: 0;
 }}
 
-.hero-kpis {{
-    position: absolute;
-    z-index: 3;
-    left: 70px;
-    right: 70px;
-    bottom: 52px;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(190px, 260px));
-    gap: 20px;
-}}
 
-.hero-kpi {{
-    padding: 22px;
-    border-radius: 22px;
-    background: rgba(255,255,255,0.14);
-    border: 1px solid rgba(255,255,255,0.24);
-    backdrop-filter: blur(14px);
-    color: white;
-    box-shadow: 0 18px 45px rgba(0,0,0,0.18);
-}}
 
-.hero-kpi-value {{
-    font-size: 28px;
-    font-weight: 900;
-}}
 
-.hero-kpi-label {{
-    color: #cbd5e1;
-    font-size: 14px;
-    font-weight: 700;
-    margin-top: 6px;
-}}
+
+
+
+
 
 .project-card {{
     margin-top: 20px;
@@ -506,14 +484,12 @@ hr {{
 /* ================= STRONGER BUT SIMPLE HOVER ================= */
 .kpi-card,
 .project-card,
-.hero-kpi,
 div[data-testid="stVerticalBlockBorderWrapper"] {{
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }}
 
 .kpi-card:hover,
-.project-card:hover,
-.hero-kpi:hover,
+.project-card:hover:hover,
 div[data-testid="stVerticalBlockBorderWrapper"]:hover {{
     transform: translateY(-5px);
     border-color: rgba(37,99,235,0.35) !important;
@@ -684,10 +660,6 @@ page = selected
 # HOME
 # =========================================================
 if page == "Home":
-    total_sales = df["sales"].sum()
-    total_profit = df["profit"].sum()
-    total_orders = df["order_id"].nunique()
-
     st.markdown(
         f"""
         <div class="hero">
@@ -699,20 +671,6 @@ if page == "Home":
                     customer segments, shipping performance, and market opportunities.
                 </p>
             </div>
-
-            <div class="hero-kpis">
-                <div class="hero-kpi">
-                    <div class="hero-kpi-value">${total_sales:,.0f}</div>
-                    <div class="hero-kpi-label">Total Sales</div>
-                </div>
-                <div class="hero-kpi">
-                    <div class="hero-kpi-value">${total_profit:,.0f}</div>
-                    <div class="hero-kpi-label">Total Profit</div>
-                </div>
-                <div class="hero-kpi">
-                    <div class="hero-kpi-value">{total_orders:,}</div>
-                    <div class="hero-kpi-label">Total Orders</div>
-                </div>
             </div>
         </div>
         """,
@@ -990,4 +948,3 @@ st.markdown("""
 <hr>
 <div class="footer">Built with Streamlit • Global Superstore Project</div>
 """, unsafe_allow_html=True)
-
