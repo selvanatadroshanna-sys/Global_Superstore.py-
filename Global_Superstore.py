@@ -962,41 +962,40 @@ elif page == "Detailed Analysis":
 # INSIGHTS & RECOMMENDATIONS
 # =========================================================
 elif page == "Insights & Recommendations":
-        st.markdown('<div class="page-shell">', unsafe_allow_html=True)
-        section_title("Insights & Recommendations", "Actionable findings and recommended business actions.")
-    
-        # 📊 Data
-        insights_data = [
-            ["Shipping", "Standard Class is the most used shipping mode", "Optimize Standard shipping costs"],
-            ["Customer Segment", "Consumer segment drives most revenue", "Focus marketing on Consumer segment"],
-            ["Category Demand", "Office Supplies has consistent demand", "Maintain strong stock levels"],
-            ["Sub-Category", "Binders are highly ordered", "Bundle with related products"],
-            ["Market", "Asia Pacific performs strongly", "Expand in Asia Pacific"],
-            ["Sales Pattern", "Sales are right-skewed", "Increase mid-value orders"],
-            ["Profit", "High variability in profit margins", "Standardize pricing strategies"],
-            ["Top Category", "Technology is most profitable", "Promote Technology products"],
-            ["Discount Risk", "Furniture has high discounts", "Reduce excessive discounting"],
-            ["Loss Areas", "Tables generate losses", "Adjust pricing or reduce cost"],
-            ["Returns", "Eastern Africa has high returns", "Improve logistics & quality"],
-            ["Category Returns", "Office Supplies returns are high", "Improve product quality"],
-        ]
-    
-        df_insights = pd.DataFrame(
-            insights_data,
-            columns=["Area", "Insight", "Recommendation"]
-        )
-    
-        
-        st.markdown(
-            df_insights.to_html(index=False, classes="insights-table"),
-            unsafe_allow_html=True
-    <hr>
-        )
-    
-        st.markdown("</div>", unsafe_allow_html=True)
+    st.markdown('<div class="page-shell">', unsafe_allow_html=True)
+    section_title("Insights & Recommendations", "Actionable findings and recommended business actions.")
+
+    insights_data = [
+        ["Shipping", "Standard Class is the most used shipping mode", "Optimize Standard shipping costs"],
+        ["Customer Segment", "Consumer segment drives most revenue", "Focus marketing on Consumer segment"],
+        ["Category Demand", "Office Supplies has consistent demand", "Maintain strong stock levels"],
+        ["Sub-Category", "Binders are highly ordered", "Bundle with related products"],
+        ["Market", "Asia Pacific performs strongly", "Expand in Asia Pacific"],
+        ["Sales Pattern", "Sales are right-skewed", "Increase mid-value orders"],
+        ["Profit", "High variability in profit margins", "Standardize pricing strategies"],
+        ["Top Category", "Technology is most profitable", "Promote Technology products"],
+        ["Discount Risk", "Furniture has high discounts", "Reduce excessive discounting"],
+        ["Loss Areas", "Tables generate losses", "Adjust pricing or reduce cost"],
+        ["Returns", "Eastern Africa has high returns", "Improve logistics and quality"],
+        ["Category Returns", "Office Supplies returns are high", "Improve product quality"],
+    ]
+
+    df_insights = pd.DataFrame(
+        insights_data,
+        columns=["Area", "Insight", "Recommendation"]
+    )
+
+    st.markdown(
+        df_insights.to_html(index=False, classes="insights-table", escape=False),
+        unsafe_allow_html=True
+    )
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
 # =========================================================
 # FOOTER
 # =========================================================
 st.markdown("""
+<hr>
 <div class="footer">Built with Streamlit • Global Superstore Project</div>
 """, unsafe_allow_html=True)
