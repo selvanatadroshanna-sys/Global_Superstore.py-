@@ -1008,22 +1008,27 @@ elif page == "Detailed Analysis":
 # INSIGHTS & RECOMMENDATIONS
 # =========================================================
 elif page == "Insights & Recommendations":
-    st.header("Insights & Recommendations")
+
+    st.markdown('<div class="page-shell">', unsafe_allow_html=True)
+
+    section_title(
+        "Insights & Recommendations",
+        "Key findings and actionable business decisions"
+    )
 
     insights_data = [
-        ["Shipping", "Standard Class is the most commonly used shipping mode, indicating a strong preference for low-cost delivery.", "Optimize Standard Class operations and negotiate better shipping rates to reduce cost."],
-        ["Customer Segment", "The Consumer segment is the dominant and most profitable segment, making it the primary revenue driver.", "Prioritize Consumer-focused campaigns and loyalty offers."],
-        ["Category Demand", "Office Supplies is the most frequent category, showing consistent and recurring demand.", "Maintain strong stock availability for recurring Office Supplies demand."],
-        ["Sub-Category Demand", "Binders is one of the most popular sub-categories in terms of order frequency.", "Bundle Binders with related Office Supplies products to increase order value."],
-        ["Market Performance", "The Asia Pacific market shows strong sales presence compared to other markets.", "Leverage Asia Pacific performance for further business expansion."],
-        ["Sales Distribution", "Sales, Profit, and Shipping Cost are right-skewed, meaning a few large orders drive overall performance.", "Reduce dependency on large orders by increasing repeat purchases and mid-value orders."],
-        ["Profit Variability", "Profit has many outliers, indicating high variability in margins across orders.", "Review pricing and discount rules to make margins more consistent."],
-        ["Top Profit Category", "Technology generates the highest profit, making it the most valuable category.", "Promote Technology products and expand high-margin Technology offerings."],
-        ["Discount Risk", "Furniture has the highest average discount, which may reduce profitability.", "Re-evaluate Furniture discounts and set minimum margin thresholds."],
-        ["Loss-Making Areas", "Some sub-categories such as Tables generate consistent losses despite sales activity.", "Improve Tables pricing, reduce costs, or limit aggressive discounts."],
-        ["Discount vs Profit", "Higher discounts are generally associated with lower profitability.", "Use targeted discounts only where they improve volume without damaging margin."],
-        ["Returns", "Eastern Africa has the highest return rate among regions.", "Investigate quality, logistics, and customer satisfaction issues in high-return regions."],
-        ["Category Returns", "Office Supplies also shows a high return rate compared to other categories.", "Analyze Office Supplies return reasons and improve product descriptions or quality checks."],
+        ["Shipping", "Standard Class is the most commonly used shipping mode, indicating a strong preference for low-cost delivery.", "Optimize Standard Class operations and negotiate better shipping rates."],
+        ["Customer Segment", "Consumer segment is the main revenue driver.", "Focus marketing campaigns on Consumer segment."],
+        ["Category Demand", "Office Supplies has consistent demand.", "Ensure strong stock availability."],
+        ["Sub-Category", "Binders are highly demanded.", "Bundle with related products."],
+        ["Market", "Asia Pacific performs strongly.", "Expand business in Asia Pacific."],
+        ["Sales Pattern", "Sales are right-skewed.", "Increase mid-value orders."],
+        ["Profit", "High variability in profit margins.", "Standardize pricing strategies."],
+        ["Top Category", "Technology is most profitable.", "Promote Technology products."],
+        ["Discount Risk", "Furniture has high discounts.", "Reduce excessive discounting."],
+        ["Loss Areas", "Tables generate losses.", "Adjust pricing or reduce costs."],
+        ["Returns", "Eastern Africa has high returns.", "Improve logistics and product quality."],
+        ["Category Returns", "Office Supplies returns are high.", "Improve product quality checks."],
     ]
 
     insights_df = pd.DataFrame(
@@ -1031,19 +1036,25 @@ elif page == "Insights & Recommendations":
         columns=["Area", "Insight / Problem", "Recommendation"]
     )
 
-    st.markdown("""
-    <div class="custom-card">
-       
-        <p style="color:#64748b; margin-bottom:16px;">
-            A structured summary of the main findings and recommended actions.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-
     st.markdown(
-        insights_df.to_html(index=False, classes="insights-table", escape=False),
+        """
+        <div class="project-card">
+            <h3 style="margin-bottom:10px;">📊 Business Insights Summary</h3>
+            <p style="color:#64748b; margin-bottom:16px;">
+                A structured overview of key insights, business problems, and recommended actions.
+            </p>
+        </div>
+        """,
         unsafe_allow_html=True
     )
+
+    
+    st.markdown(
+        insights_df.to_html(index=False, classes="insights-table"),
+        unsafe_allow_html=True
+    )
+
+    st.markdown("</div>", unsafe_allow_html=True)
 # =========================================================
 # FOOTER
 # =========================================================
