@@ -43,10 +43,6 @@ section[data-testid="stSidebar"] {{
     display: none;
 }}
 
-/* Hide radio circles */
-div[role="radiogroup"] label > div:first-child {{
-    display: none !important;
-}}
 
 /* ================= TOP HEADER ================= */
 .top-header {{
